@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -28,6 +29,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	implementation ("com.mysql:mysql-connector-j")
+	implementation ("io.jsonwebtoken:jjwt:0.9.1")                                   // Spring Json-Web-Token
+	compileOnly ("org.projectlombok:lombok")
+
+	// JSON in MySQL
+	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.0")
 }
 
 tasks.withType<KotlinCompile> {
