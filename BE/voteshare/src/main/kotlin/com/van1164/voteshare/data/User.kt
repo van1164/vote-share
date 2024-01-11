@@ -2,13 +2,16 @@ package com.van1164.voteshare.data
 
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
+import lombok.NoArgsConstructor
+import org.hibernate.annotations.Type
 
 @Entity
+@NoArgsConstructor
 @Table(name = "USER")
 data class User(
     @Id
     @GeneratedValue
-    val id: String,
+    val id: Long? = null,
 
     @Column(name = "nick_name")
     val nickName: String,
@@ -16,10 +19,12 @@ data class User(
     @Column(name = "access_token")
     val accessToken: String,
 
-    @Column(name = "vote_list", columnDefinition = "json")
-    val voteList: String,
+    @OneToMany(mappedBy = "user")
+    val voteList: MutableList<Vote> = mutableListOf(),
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     val oAuth2Provider : OAuth2Provider
+
+
 )
