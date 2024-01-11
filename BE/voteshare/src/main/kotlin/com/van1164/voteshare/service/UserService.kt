@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class MainService {
+class UserService:BaseService() {
 
     private val userRepository = UserRepository()
-    private val tx = EntityManagerObject.tx
-    fun createUser(nickName : String){
+    fun createUser(nickName : String): User {
         val newUser = User(nickName=nickName, accessToken = " ", oAuth2Provider = OAuth2Provider.KAKAO)
         tx.begin()
         userRepository.save(newUser)
         tx.commit()
+        return newUser
     }
 
-    fun loadUser(id: Long): User? {
-        return userRepository.loadUser(id)
+    fun loadUserById(id: Long): User? {
+        return userRepository.loadUserById(id)
     }
 
 

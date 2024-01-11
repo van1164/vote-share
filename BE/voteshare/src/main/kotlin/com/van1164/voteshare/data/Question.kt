@@ -10,22 +10,30 @@ import jakarta.persistence.Table
 
 
 @Entity
-@Table(name= "QUESTION")
+@Table(name = "QUESTION")
 data class Question(
         @Id
         @GeneratedValue
-        val id : Long? =null,
+        val id: Long? = null,
 
         @Column(name = "question", nullable = false)
-        val question : String,
+        val question: String,
 
         @Column(name = "vote_num")
-        val voteNum : Int = 0,
+        val voteNum: Int = 0,
 
         @Column(name = "question_image_url")
-        val voteImageUrl : String? = null,
+        val voteImageUrl: String? = null,
 
         @ManyToOne
-        @JoinColumn(name="VOTE_ID")
-        val vote : Vote,
-)
+        @JoinColumn(name = "VOTE_ID")
+        var vote: Vote? = null,
+) {
+    fun voteSet(vote: Vote) {
+        if (this.vote != null) {
+            this.vote!!.questionList.remove(this)
+        }
+        this.vote = vote
+        vote.questionList.add(this)
+    }
+}

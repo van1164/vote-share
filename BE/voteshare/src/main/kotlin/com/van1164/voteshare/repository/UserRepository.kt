@@ -12,7 +12,7 @@ class UserRepository {
         em.persist(user)
     }
 
-    fun loadUser(id: Long): User? {
+    fun loadUserById(id: Long): User? {
         return em.find(User::class.java,id)
     }
 }
