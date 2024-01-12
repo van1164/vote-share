@@ -1,9 +1,8 @@
-package com.van1164.voteshare.data
+package com.van1164.voteshare.domain
 
-import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
+import lombok.Builder
 import lombok.NoArgsConstructor
-import org.hibernate.annotations.Type
 
 @Entity
 @NoArgsConstructor
@@ -16,6 +15,9 @@ data class User(
     @Column(name = "nick_name")
     val nickName: String,
 
+    @Column(name = "e_mail")
+    val email: String,
+
     @Column(name = "access_token")
     val accessToken: String,
 
@@ -24,7 +26,9 @@ data class User(
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val oAuth2Provider : OAuth2Provider
+    val oAuth2Provider : OAuth2Provider,
 
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    val role : Role
 )

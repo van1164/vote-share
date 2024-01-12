@@ -1,7 +1,7 @@
 package com.van1164.voteshare.repository
 
 import com.van1164.voteshare.EntityManagerObject
-import com.van1164.voteshare.data.Vote
+import com.van1164.voteshare.domain.Vote
 import org.springframework.stereotype.Repository
 
 @Repository

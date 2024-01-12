@@ -1,4 +1,4 @@
-package com.van1164.voteshare.data
+package com.van1164.voteshare.domain
 
 import jakarta.persistence.*
 import java.util.*
@@ -45,5 +45,8 @@ data class Vote(
 
         @Column(name= "all_vote_sum")
         val allVoteSum : Int = 0,
+
+        @Column(name = "public_share")
+        val publicShare : Boolean = true,
 
 )

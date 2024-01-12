@@ -1,4 +1,4 @@
-package com.van1164.voteshare.data
+package com.van1164.voteshare.domain
 
 import lombok.Getter
 import lombok.RequiredArgsConstructor

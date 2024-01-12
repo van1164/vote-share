@@ -1,8 +1,7 @@
 package com.van1164.voteshare.service
 
-import com.van1164.voteshare.EntityManagerObject
-import com.van1164.voteshare.data.Question
-import com.van1164.voteshare.data.Vote
+import com.van1164.voteshare.domain.Question
+import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.repository.QuestionRepository
 import org.springframework.stereotype.Service
 
