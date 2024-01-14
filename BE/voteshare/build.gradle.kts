@@ -31,7 +31,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation ("com.mysql:mysql-connector-j")
-	implementation ("io.jsonwebtoken:jjwt:0.9.1")                                   // Spring Json-Web-Token
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	compileOnly ("org.projectlombok:lombok")
 
 	// JSON in MySQL

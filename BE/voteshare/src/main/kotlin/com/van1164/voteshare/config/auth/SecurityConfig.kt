@@ -29,8 +29,6 @@ class SecurityConfig {
                 defaultSuccessUrl("/",true)
                 userInfoEndpoint {  }
             }
-            userDetailsService()
-
         }
         return http.build()
     }
