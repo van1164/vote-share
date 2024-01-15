@@ -1,5 +1,6 @@
 package com.van1164.voteshare.config.auth
 
+import com.van1164.voteshare.auth.OAuthSuccessHandler
 import com.van1164.voteshare.service.OAuth2UserService
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
@@ -26,8 +27,8 @@ class SecurityConfig {
             }
             oauth2Login {
                 loginPage = "/loginPage"
-                defaultSuccessUrl("/",true)
                 userInfoEndpoint {  }
+                authenticationSuccessHandler = OAuthSuccessHandler()
             }
         }
         return http.build()

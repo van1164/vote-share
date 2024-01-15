@@ -13,32 +13,33 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 
+//필요없어짐.
 @Service
 class OAuth2UserService : DefaultOAuth2UserService() {
     private val userRepository = UserRepository()
     private val tx = EntityManagerObject.tx
-
-    @Value("\${jwt.secret}")
-    private lateinit var secretKey: String
     private val jwtTokenProvider = JwtTokenProvider()
     @Transactional
     override fun loadUser(userRequest: OAuth2UserRequest?): OAuth2User {
         val user = super.loadUser(userRequest)
-        println(secretKey)
         println("OAuthUser = " + user.attributes)
         val name = user.attributes["name"] as String
         val email = user.attributes["email"] as String
-        val jwt = jwtTokenProvider.createToken(email)
-        val newUser = User(
-            nickName = name,
-            email = email,
-            accessToken = jwt.accessToken,
-            role = Role.USER,
-            oAuth2Provider = OAuth2Provider.GOOGLE
-        )
-        tx.begin()
-        userRepository.save(newUser)
-        tx.commit()
+        val testUser = userRepository.loadUserByEmail(email)
+        if (testUser != null) {
+            val jwt = jwtTokenProvider.createToken(email)
+            val newUser = User(
+                    nickName = name,
+                    email = email,
+                    accessToken = jwt.accessToken,
+                    role = Role.USER,
+                    oAuth2Provider = OAuth2Provider.GOOGLE
+            )
+            tx.begin()
+            userRepository.save(newUser)
+            tx.commit()
+
+        }
         return super.loadUser(userRequest)
     }
 
