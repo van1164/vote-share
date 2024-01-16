@@ -11,4 +11,15 @@ class VoteRepository {
     fun save(vote : Vote){
         em.persist(vote)
     }
+
+    fun loadPopularVote(): MutableList<Vote> {
+        val jpql = "select v from Vote v order by allVoteSum DESC"
+        val voteList = em.createQuery(jpql,Vote::class.java).resultList
+        return if (voteList.size<5){
+            voteList
+        }
+        else{
+            voteList.subList(0,5)
+        }
+    }
 }

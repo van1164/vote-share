@@ -3,6 +3,8 @@ package com.van1164.voteshare.service
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.VoteDTO
 import com.van1164.voteshare.repository.VoteRepository
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -30,4 +32,13 @@ class VoteService : BaseService() {
 
         return vote
     }
+
+    fun loadMainPageData() : ResponseEntity<Any> {
+        val popularVoteList = voteRepository.loadPopularVote()
+        val response = HashMap<String,Any>()
+        response["popularVoteList"] = popularVoteList
+        response["test"] = "TTTTTTTTTTTTTTTTTTTTTTTT"
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
 }
