@@ -35,7 +35,8 @@ class OAuthSuccessHandler : AuthenticationSuccessHandler {
         }
         response.status = HttpServletResponse.SC_OK
         response.contentType = "application/json;charset=UTF-8"
-        response.sendRedirect("/login?access-code=${jwt.accessToken}")
+        response.addHeader("access-code",jwt.accessToken)
+        response.sendRedirect("/login")
     }
 
     @Transactional
