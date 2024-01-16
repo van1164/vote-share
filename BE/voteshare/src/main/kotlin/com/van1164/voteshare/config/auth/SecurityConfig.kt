@@ -1,5 +1,6 @@
 package com.van1164.voteshare.config.auth
 
+import com.van1164.voteshare.auth.OAuthFailureHandler
 import com.van1164.voteshare.auth.OAuthSuccessHandler
 import com.van1164.voteshare.service.OAuth2UserService
 import lombok.RequiredArgsConstructor
@@ -29,6 +30,7 @@ class SecurityConfig {
                 loginPage = "/loginPage"
                 userInfoEndpoint {  }
                 authenticationSuccessHandler = OAuthSuccessHandler()
+                authenticationFailureHandler = OAuthFailureHandler()
             }
         }
         return http.build()
