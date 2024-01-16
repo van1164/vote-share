@@ -20,28 +20,33 @@ import org.springframework.stereotype.Component
 class OAuthSuccessHandler : AuthenticationSuccessHandler {
     val userRepository = UserRepository()
     val jwtTokenProvider = JwtTokenProvider()
-    override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+    override fun onAuthenticationSuccess(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        authentication: Authentication
+    ) {
         val oAuth2User = authentication.principal as OAuth2User
         val name = oAuth2User.attributes["name"] as String
         val email = oAuth2User.attributes["email"] as String
         val user = userRepository.loadUserByEmail(email)
         val jwt = jwtTokenProvider.createToken(email)
         if (user == null) {
-            saveUser(email, name,jwt)
+            saveUser(email, name, jwt)
         }
         response.status = HttpServletResponse.SC_OK
         response.contentType = "application/json;charset=UTF-8"
-        response.sendRedirect("/login?access-code=${jwt.accessToken}")
+        response.addHeader("access-code",jwt.accessToken)
+        response.sendRedirect("/login")
     }
 
     @Transactional
-    fun saveUser(email: String, name: String, jwt :TokenInfo) {
+    fun saveUser(email: String, name: String, jwt: TokenInfo) {
         val newUser = User(
-                nickName = name,
-                email = email,
-                accessToken = jwt.accessToken,
-                role = Role.USER,
-                oAuth2Provider = OAuth2Provider.GOOGLE
+            nickName = name,
+            email = email,
+            accessToken = jwt.accessToken,
+            role = Role.USER,
+            oAuth2Provider = OAuth2Provider.GOOGLE
         )
         tx.begin()
         userRepository.save(newUser)
