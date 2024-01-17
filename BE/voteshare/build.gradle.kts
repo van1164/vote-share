@@ -38,6 +38,8 @@ dependencies {
 
 	// JSON in MySQL
 	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.0")
+
+	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
 }
 
 tasks.withType<KotlinCompile> {
