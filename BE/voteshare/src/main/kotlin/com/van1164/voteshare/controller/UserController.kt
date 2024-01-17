@@ -4,7 +4,7 @@ import com.van1164.voteshare.service.UserService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
-@RestController
+@Controller
 @RequestMapping(value = ["/user"])
 class UserController {
 
@@ -15,8 +15,9 @@ class UserController {
         return "loginPage"
     }
 
-    @PostMapping("/")
-    fun createUser(){
+    @GetMapping("/login")
+    fun createUser(): String {
+        return "TEST"
     }
 
 }

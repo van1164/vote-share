@@ -3,6 +3,7 @@ package com.van1164.voteshare.repository
 import com.van1164.voteshare.EntityManagerObject
 import com.van1164.voteshare.domain.User
 import jakarta.persistence.NoResultException
+import jakarta.persistence.NonUniqueResultException
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -25,6 +26,9 @@ class UserRepository {
             em.createQuery(jpql,User::class.java).setParameter("email",email).singleResult
         }
         catch (e : NoResultException){
+            null
+        }
+        catch (e : NonUniqueResultException){
             null
         }
 

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource
 @SpringBootApplication
 @PropertySource(value = ["classpath:application.properties"])
 class VoteshareApplication
-
 fun main(args: Array<String>) {
 	runApplication<VoteshareApplication>(*args)
 }
