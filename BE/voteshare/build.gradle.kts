@@ -38,7 +38,8 @@ dependencies {
 
 	//swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
-	implementation("io.springfox:springfox-boot-starter:3.0.0")
+	implementation("io.swagger.core.v3:swagger-annotations:2.2.16")
+	//implementation("io.springfox:springfox-boot-starter:3.0.0")
 
 	// JSON in MySQL
 	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.0")
