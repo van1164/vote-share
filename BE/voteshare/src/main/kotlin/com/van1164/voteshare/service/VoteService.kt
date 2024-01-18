@@ -1,5 +1,6 @@
 package com.van1164.voteshare.service
 
+import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.VoteDTO
 import com.van1164.voteshare.repository.VoteRepository
@@ -15,8 +16,7 @@ import java.util.Date
 class VoteService : BaseService() {
     val voteRepository = VoteRepository()
 
-    fun createVote(voteDTO: VoteDTO): Vote {
-        val user = voteDTO.user
+    fun createVote(voteDTO: VoteDTO, user:User): Vote {
         val profileImageUrl = "testURL"
         val voteUrl = "testVoteURL"
         val title = voteDTO.title
@@ -25,7 +25,6 @@ class VoteService : BaseService() {
         val updatedDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
 
         val vote = Vote(title, subTitle, voteUrl, createDate, updatedDate,  user)
-
         tx.begin()
         voteRepository.save(vote)
         tx.commit()

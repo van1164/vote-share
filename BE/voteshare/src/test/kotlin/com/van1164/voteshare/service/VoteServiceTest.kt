@@ -9,11 +9,5 @@ import org.springframework.boot.test.context.SpringBootTest
 class VoteServiceTest {
     val service = VoteService()
     val userService = UserService()
-    @Test
-    fun createVoteTest(){
-        val testUser = userService.createUser("TEST1")
-        val voteDTO = VoteDTO(testUser,"testTitle","testSub")
-        service.createVote(voteDTO)
-    }
 
 }

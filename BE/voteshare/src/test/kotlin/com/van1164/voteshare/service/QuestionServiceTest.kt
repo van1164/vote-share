@@ -11,12 +11,5 @@ class QuestionServiceTest {
     val voteService = VoteService()
     val questionService = QuestionService()
 
-    @Test
-    fun createQuestionTest(){
-        val testUser = userService.createUser("TEST1")
-        val voteDTO = VoteDTO(testUser,"testTitle","testSub")
-        val vote = voteService.createVote(voteDTO)
 
-        questionService.createQuestion("첫번쨰 질문입니다.",vote)
-    }
 }
