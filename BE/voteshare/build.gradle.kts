@@ -45,6 +45,12 @@ dependencies {
 	implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.7.0")
 
 	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+
+	//S3
+	implementation("com.amazonaws:aws-java-sdk-s3:1.12.268")
+
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.0-RC2")
 }
 
 tasks.withType<KotlinCompile> {
