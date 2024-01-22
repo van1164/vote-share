@@ -6,8 +6,9 @@ import com.van1164.voteshare.repository.QuestionRepository
 import org.springframework.stereotype.Service
 
 @Service
-class QuestionService : BaseService() {
-    val questionRepository = QuestionRepository()
+class QuestionService(
+        val questionRepository : QuestionRepository
+) : BaseService() {
 
     fun createQuestion(questionTitle : String, vote: Vote){
         tx.begin()
