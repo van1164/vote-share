@@ -13,10 +13,9 @@ import java.util.Date
 
 
 @Service
-class VoteService : BaseService() {
-    val voteRepository = VoteRepository()
+class VoteService(val voteRepository:VoteRepository) : BaseService() {
 
-    fun createVote(voteDTO: VoteDTO, user:User): Vote {
+    fun createVote(voteDTO: VoteDTO, user : User): Vote {
         val profileImageUrl = "testURL"
         val voteUrl = "testVoteURL"
         val title = voteDTO.title

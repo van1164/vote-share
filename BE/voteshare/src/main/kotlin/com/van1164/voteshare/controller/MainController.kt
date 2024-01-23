@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api")
-class MainController {
-    val voteService = VoteService()
-
+class MainController(val voteService : VoteService) {
     @GetMapping("/main_page")
     @PreAuthorize("isAuthenticated()")
     fun mainPage() : ResponseEntity<Any> {

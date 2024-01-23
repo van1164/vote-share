@@ -1,13 +1,9 @@
 package com.van1164.voteshare.auth
 
-import JwtTokenProvider
-import com.van1164.voteshare.EntityManagerObject.tx
-import com.van1164.voteshare.domain.OAuth2Provider
-import com.van1164.voteshare.domain.Role
+import com.van1164.voteshare.JwtTokenProvider
 import com.van1164.voteshare.domain.TokenInfo
-import com.van1164.voteshare.domain.User
-import com.van1164.voteshare.repository.UserRepository
-import com.van1164.voteshare.repository.RedisRepository
+import com.van1164.voteshare.service.RedisService
+import com.van1164.voteshare.service.UserService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.transaction.Transactional
@@ -17,10 +13,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component
 
 @Component(value = "authenticationSuccessHandler")
-class OAuthSuccessHandler : AuthenticationSuccessHandler {
-    val userRepository = UserRepository()
-    val jwtTokenProvider = JwtTokenProvider()
-    val redisRepository by lazy { RedisRepository() }
+class OAuthSuccessHandler(val userService :UserService, val jwtTokenProvider: JwtTokenProvider, val redisService: RedisService) : AuthenticationSuccessHandler {
+//    val userRepository = UserRepository()
+//    val jwtTokenProvider = com.van1164.voteshare.JwtTokenProvider()
+//    val redisRepository by lazy { RedisRepository() }
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -29,12 +25,12 @@ class OAuthSuccessHandler : AuthenticationSuccessHandler {
         val oAuth2User = authentication.principal as OAuth2User
         val name = oAuth2User.attributes["name"] as String
         val email = oAuth2User.attributes["email"] as String
-        val user = userRepository.loadUserByEmail(email)
+        val user = userService.loadUserByEmail(email)
         val jwt = jwtTokenProvider.createToken(email)
         if (user == null) {
-            redisRepository.save(jwt.accessToken,email)
+            redisService.save(jwt.accessToken,email)
             println("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-            println("TTTTTTTTTTTTTTTTT:" + redisRepository.loadByJwt(jwt.accessToken))
+            println("TTTTTTTTTTTTTTTTT:" + redisService.loadByJwt(jwt.accessToken))
             println("XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
             saveUser(email, name, jwt)
         }
@@ -46,15 +42,6 @@ class OAuthSuccessHandler : AuthenticationSuccessHandler {
 
     @Transactional
     fun saveUser(email: String, name: String, jwt: TokenInfo) {
-        val newUser = User(
-            nickName = name,
-            email = email,
-            accessToken = jwt.accessToken,
-            role = Role.USER,
-            oAuth2Provider = OAuth2Provider.GOOGLE
-        )
-        tx.begin()
-        userRepository.save(newUser)
-        tx.commit()
+        userService.save(name,email,jwt.accessToken)
     }
 }
