@@ -1,6 +1,5 @@
 package com.van1164.voteshare
 
-import JwtTokenProvider
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse

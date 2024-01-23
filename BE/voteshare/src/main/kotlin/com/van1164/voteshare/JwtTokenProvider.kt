@@ -1,3 +1,5 @@
+package com.van1164.voteshare
+
 import com.van1164.voteshare.domain.Role
 import com.van1164.voteshare.domain.TokenInfo
 import io.jsonwebtoken.Claims
@@ -5,11 +7,8 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import jakarta.annotation.PostConstruct
 import lombok.RequiredArgsConstructor
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority

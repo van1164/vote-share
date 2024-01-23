@@ -1,13 +1,9 @@
 package com.van1164.voteshare.service
 
-import JwtTokenProvider
+import com.van1164.voteshare.JwtTokenProvider
 import com.van1164.voteshare.EntityManagerObject
-import com.van1164.voteshare.domain.OAuth2Provider
-import com.van1164.voteshare.domain.Role
-import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.repository.UserRepository
 import jakarta.transaction.Transactional
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User

@@ -12,7 +12,8 @@ class QuestionService(
 
     fun createQuestion(questionTitle : String, vote: Vote){
         tx.begin()
-        val question = Question(question = questionTitle,vote = vote)
+        val question = Question(question = questionTitle)
+        question.voteSet(vote)
         questionRepository.save(question)
         tx.commit()
     }
