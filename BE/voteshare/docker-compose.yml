@@ -1,0 +1,36 @@
+version: '1'
+services:
+  spring-app:
+    image: van133/vote_share:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - db-mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/vote_share
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ttink1245!
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: ttin1k245!
+    restart: unless-stopped
+
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    restart: unless-stopped
+  db-mysql:
+    image: "mysql:latest"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_DATABASE: vote_share
+      MYSQL_ROOT_PASSWORD: ttink1245!
+    restart: unless-stopped
