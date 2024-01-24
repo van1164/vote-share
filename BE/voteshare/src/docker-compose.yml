@@ -14,6 +14,8 @@ services:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: ttin1k245!
+    restart: unless-stopped
+
 
   redis:
     image: "redis:latest"
@@ -21,7 +23,7 @@ services:
       - "6379:6379"
     expose:
       - "6379"
-
+    restart: unless-stopped
   db-mysql:
     image: "mysql:latest"
     ports:
@@ -31,3 +33,4 @@ services:
     environment:
       MYSQL_DATABASE: vote_share
       MYSQL_ROOT_PASSWORD: ttink1245!
+    restart: unless-stopped
