@@ -7,8 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class UserServiceTest {
-    val service = UserService()
     private val log = LoggerFactory.getLogger(javaClass)
-
-
 }

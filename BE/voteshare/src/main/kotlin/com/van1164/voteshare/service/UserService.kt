@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class UserService:BaseService() {
-    val userRepository = UserRepository()
+class UserService(val userRepository: UserRepository):BaseService() {
     fun loadUserById(id: Long): User? {
         return userRepository.loadUserById(id)
     }

@@ -7,7 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class VoteServiceTest {
-    val service = VoteService()
-    val userService = UserService()
 
 }

@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping(value = ["/user"])
-class UserController {
-
-    val userService = UserService()
+class UserController(val userService: UserService) {
 
     @GetMapping("/loginPage")
     fun loginPage() : String{

@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.invoke
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-class SecurityConfig {
+class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFailureHandler: OAuthFailureHandler) {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -29,9 +29,9 @@ class SecurityConfig {
             }
             oauth2Login {
                 loginPage = "/loginPage"
-                userInfoEndpoint {  }
-                authenticationSuccessHandler = OAuthSuccessHandler()
-                authenticationFailureHandler = OAuthFailureHandler()
+                userInfoEndpoint { }
+                authenticationSuccessHandler = oAuthSuccessHandler
+                authenticationFailureHandler = oAuthFailureHandler
             }
             //addFilterBefore<UsernamePasswordAuthenticationFilter> (JwtAuthenticationFilter(com.van1164.voteshare.JwtTokenProvider()))
         }
@@ -40,11 +40,7 @@ class SecurityConfig {
 
     @Bean
     fun userDetailsService(): UserDetailsService {
-        val userDetails = User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("password")
-            .roles("USER")
-            .build()
+        val userDetails = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build()
         return InMemoryUserDetailsManager(userDetails)
     }
 }
