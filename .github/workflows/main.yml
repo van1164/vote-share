@@ -31,6 +31,8 @@ jobs:
           cd BE/voteshare
           chmod +x gradlew
           ./gradlew clean build
+          ls
+          pwd
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/vote_share .
 
     - name: Set up Docker Buildx
