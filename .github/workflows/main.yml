@@ -21,7 +21,7 @@ jobs:
         distribution: 'temurin'
 
     - name: cd
-      run: cd BE/vote_share
+      run: cd BE/voteshare
 
 
     # 2. Spring Boot 애플리케이션 빌드
