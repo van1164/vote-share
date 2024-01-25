@@ -25,7 +25,7 @@ class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFail
             csrf { disable() }
             cors { }
             authorizeRequests {
-                authorize("/api/**", hasAuthority("ROLE_USER"))
+                authorize("/api/**", permitAll)
             }
             oauth2Login {
                 loginPage = "/loginPage"
