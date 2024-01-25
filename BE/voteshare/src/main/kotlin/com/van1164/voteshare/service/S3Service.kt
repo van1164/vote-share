@@ -15,25 +15,44 @@ import java.util.*
 @Service
 class S3Service(val amazonS3Client : AmazonS3) {
 
-    suspend fun uploadMultipleImages(images : List<MultipartFile>){
+    suspend fun uploadMultipleImages(images : List<MultipartFile>): List<String> {
+        val imageUrls = mutableListOf<String>()
         withContext(Dispatchers.IO) {
             val uploadJobs = images.map {
                 val objectMetadata = ObjectMetadata().apply {
                     this.contentType = it.contentType
                     this.contentLength = it.size
                 }
+                val key = UUID.randomUUID().toString() + it.contentType
+                imageUrls.add(key)
                 async {
                     val putObjectRequest = PutObjectRequest(
                             "vote-share",
-                            UUID.randomUUID().toString() + it.contentType,
+                            key,
                             it.inputStream,
                             objectMetadata,
                     )
                     amazonS3Client.putObject(putObjectRequest)
-                }
+                }.await()
             }
-            uploadJobs.awaitAll()
         }
+        return imageUrls.toList()
+    }
+
+    fun uploadImage(image: MultipartFile): String {
+        val key = UUID.randomUUID().toString() + image.contentType
+        val objectMetadata = ObjectMetadata().apply {
+            this.contentType = image.contentType
+            this.contentLength = image.size
+        }
+        val putObjectRequest = PutObjectRequest(
+            "vote-share",
+            key,
+            image.inputStream,
+            objectMetadata,
+        )
+        amazonS3Client.putObject(putObjectRequest)
+        return key
     }
 
 }
