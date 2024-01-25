@@ -26,6 +26,6 @@ class VoteController(
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
         val vote = voteService.createVote(voteDTO, user)
-        return ResponseEntity<Any>(vote, HttpStatus.OK)
+        return ResponseEntity<Any>(hashMapOf(Pair("voteUrl",vote.voteUrl)), HttpStatus.OK)
     }
 }
