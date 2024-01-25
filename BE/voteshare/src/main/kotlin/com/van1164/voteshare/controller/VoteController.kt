@@ -19,10 +19,6 @@ class VoteController(val voteService: VoteService, val questionService: Question
         val email = redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found",HttpStatus.BAD_REQUEST)
         val user = userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found",HttpStatus.BAD_REQUEST)
         val vote = voteService.createVote(voteDTO,user)
-        voteDTO.questionList.forEach{
-            it.question
-        }
-        questionService.createQuestion(voteDTO.title,vote)
         return ResponseEntity<Any>(vote,HttpStatus.OK)
     }
 }
