@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile
 data class VoteDTO(
         val title: String,
         val subTitle : String,
-        @RequestPart val mainImage : MultipartFile,
+        @RequestPart val mainImage : MultipartFile?,
         val publicShare : Boolean,
         val questionList : MutableList<QuestionDTO>
         )
