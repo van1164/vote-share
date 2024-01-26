@@ -27,8 +27,10 @@ class VoteController(
         @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
         @ModelAttribute(value = "data") voteDTO: VoteDTO
     ): Any {
+        println("voteDTO = $voteDTO")
         val email =
             redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
+            println("token = $token")
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
         val vote = voteService.createVote(voteDTO, mainImage,imageFiles,user)
