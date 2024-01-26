@@ -9,15 +9,17 @@ import java.util.*
 
 @NoArgsConstructor
 @AllArgsConstructor
-class PopularVoteResponseDTO constructor(
+data class PopularVoteResponseDTO constructor(
 
-    public val title : String,
+    val title : String,
 
-    public val voteUrl : String,
+    val voteUrl : String,
 
-    public val id : Long? = null,
+    val id : Long? = null,
 
-    public val mainImageUrl : String? =null,
+    val mainImageUrl : String? =null,
 
-    public val allVoteSum : Int = 0,
-    )
+    val allVoteSum : Int = 0,
+    ){
+
+}
