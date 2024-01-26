@@ -25,7 +25,7 @@ class VoteController(
         @RequestHeader(value = "Authorization") token: String,
         @RequestPart mainImage: MultipartFile,
         @RequestPart imageFiles: List<MultipartFile>,
-        @RequestBody voteDTO: VoteDTO
+        voteDTO: VoteDTO
     ): Any {
         val email =
             redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
