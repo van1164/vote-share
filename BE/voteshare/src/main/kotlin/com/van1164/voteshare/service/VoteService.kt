@@ -3,6 +3,7 @@ package com.van1164.voteshare.service
 import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.VoteDTO
+import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.repository.VoteRepository
 import com.van1164.voteshare.util.ServiceUtil
 import org.springframework.http.HttpStatus
@@ -16,7 +17,12 @@ import kotlin.collections.HashMap
 
 
 @Service
-class VoteService(val voteRepository: VoteRepository, val questionService: QuestionService, val s3Service: S3Service) :
+class VoteService(
+    val voteRepository: VoteRepository,
+    val questionService: QuestionService,
+    val userRepository: UserRepository,
+    val s3Service: S3Service
+) :
     BaseService() {
 
     suspend fun createVote(voteDTO: VoteDTO, mainImage: MultipartFile?, images: List<MultipartFile>, user: User): Vote {
@@ -26,8 +32,20 @@ class VoteService(val voteRepository: VoteRepository, val questionService: Quest
         val subTitle = voteDTO.subTitle
         val createDate = ServiceUtil.dateTimeNow()
         val updatedDate = ServiceUtil.dateTimeNow()
-        val vote = Vote(title, subTitle, voteUrl, createDate, updatedDate, user, mainImageUrl = profileImageUrl, publicShare = voteDTO.publicShare)
+        val vote = Vote(
+            title,
+            subTitle,
+            voteUrl,
+            createDate,
+            updatedDate,
+            user,
+            mainImageUrl = profileImageUrl,
+            publicShare = voteDTO.publicShare
+        )
+
+
         tx.begin()
+        userRepository.addVote(user,vote)
         voteRepository.save(vote)
         tx.commit()
 
