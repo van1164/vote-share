@@ -23,9 +23,9 @@ class VoteController(
     @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     suspend fun createVote(
         @RequestHeader(value = "Authorization") token: String,
-        @RequestPart mainImage: MultipartFile,
-        @RequestPart imageFiles: List<MultipartFile>,
-        voteDTO: VoteDTO
+        @RequestPart(value = "mainImage") mainImage: MultipartFile,
+        @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
+        @ModelAttribute(value = "data") voteDTO: VoteDTO
     ): Any {
         val email =
             redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
