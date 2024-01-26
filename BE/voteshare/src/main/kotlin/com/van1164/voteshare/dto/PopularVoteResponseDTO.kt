@@ -11,14 +11,10 @@ data class PopularVoteResponseDTO(
 
     val voteUrl : String,
 
-    val user: User,
-
     val id : Long? = null,
 
     val mainImageUrl : String? =null,
 
     val allVoteSum : Int = 0,
-
-    val publicShare : Boolean = true,
 
     )
