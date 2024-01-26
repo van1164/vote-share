@@ -14,7 +14,7 @@ class VoteRepository {
     }
 
     fun loadPopularVote(): MutableList<PopularVoteResponseDTO> {
-        val jpql = "select v.title,v.voteUrl, v.mainImageUrl, v.id,v.mainImageUrl,v.allVoteSum  from Vote v where v.publicShare =true  order by allVoteSum DESC"
+        val jpql = "select v.title,v.voteUrl, v.id,v.mainImageUrl,v.allVoteSum  from Vote v where v.publicShare =true  order by allVoteSum DESC"
         val voteList = em.createQuery(jpql,PopularVoteResponseDTO::class.java).resultList
         return if (voteList.size<5){
             voteList
