@@ -26,7 +26,7 @@ class VoteService(val voteRepository: VoteRepository, val questionService: Quest
         val subTitle = voteDTO.subTitle
         val createDate = ServiceUtil.dateTimeNow()
         val updatedDate = ServiceUtil.dateTimeNow()
-        val vote = Vote(title, subTitle, voteUrl, createDate, updatedDate, user, mainImageUrl = profileImageUrl)
+        val vote = Vote(title, subTitle, voteUrl, createDate, updatedDate, user, mainImageUrl = profileImageUrl, publicShare = voteDTO.publicShare)
         tx.begin()
         voteRepository.save(vote)
         tx.commit()

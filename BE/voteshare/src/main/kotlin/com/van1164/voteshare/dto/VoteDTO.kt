@@ -12,6 +12,6 @@ data class VoteDTO(
     @Parameter(name = "투표 제목", description = "투표 제목", example = "투표 제목", required = true)
     val title: String,
     val subTitle: String,
-    val publicShare: publicShareEnum,
+    val publicShare: Boolean,
     val questionList: MutableList<String>
 )
