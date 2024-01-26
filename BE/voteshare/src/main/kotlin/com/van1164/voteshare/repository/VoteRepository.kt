@@ -1,6 +1,7 @@
 package com.van1164.voteshare.repository
 
 import com.van1164.voteshare.EntityManagerObject
+import com.van1164.voteshare.domain.Question
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.PopularVoteResponseDTO
 import org.springframework.stereotype.Repository
@@ -22,5 +23,12 @@ class VoteRepository {
         else{
             voteList.subList(0,5)
         }
+    }
+
+    fun vote(voteId: Long, questionId: Long) {
+        val vote = em.find(Vote::class.java,voteId)
+        vote.allVoteSum = vote.allVoteSum+1
+        val question = em.find(Question::class.java,questionId)
+        question.voteNum = question.voteNum +1
     }
 }

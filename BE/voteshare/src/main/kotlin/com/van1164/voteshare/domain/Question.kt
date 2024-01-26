@@ -20,7 +20,7 @@ data class Question(
         val question: String,
 
         @Column(name = "vote_num")
-        val voteNum: Int = 0,
+        var voteNum: Int = 0,
 
         @Column(name = "question_image_url")
         val voteImageUrl: String? = null,

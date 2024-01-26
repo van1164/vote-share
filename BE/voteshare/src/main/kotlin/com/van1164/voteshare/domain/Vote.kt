@@ -44,7 +44,7 @@ data class Vote(
         val questionList : MutableList<Question> = mutableListOf<Question>(),
 
         @Column(name= "all_vote_sum")
-        val allVoteSum : Int = 0,
+        var allVoteSum : Int = 0,
 
         @Column(name = "public_share")
         val publicShare : Boolean = true,
