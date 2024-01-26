@@ -8,6 +8,7 @@ import com.van1164.voteshare.util.ServiceUtil
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
@@ -15,28 +16,28 @@ import kotlin.collections.HashMap
 
 
 @Service
-class VoteService(val voteRepository:VoteRepository,val questionService: QuestionService, val s3Service: S3Service) : BaseService() {
+class VoteService(val voteRepository: VoteRepository, val questionService: QuestionService, val s3Service: S3Service) :
+    BaseService() {
 
-    suspend fun createVote(voteDTO: VoteDTO, user : User): Vote {
-        voteDTO.mainImage
-        val profileImageUrl = voteDTO.mainImage?.let { s3Service.uploadImage(it) }
+    suspend fun createVote(voteDTO: VoteDTO, mainImage: MultipartFile?, images: List<MultipartFile>, user: User): Vote {
+        val profileImageUrl = mainImage?.let { s3Service.uploadImage(it) }
         val voteUrl = ServiceUtil.createUUID()
         val title = voteDTO.title
         val subTitle = voteDTO.subTitle
         val createDate = ServiceUtil.dateTimeNow()
         val updatedDate = ServiceUtil.dateTimeNow()
-        val vote = Vote(title, subTitle, voteUrl, createDate, updatedDate,  user, mainImageUrl =  profileImageUrl)
+        val vote = Vote(title, subTitle, voteUrl, createDate, updatedDate, user, mainImageUrl = profileImageUrl)
         tx.begin()
         voteRepository.save(vote)
         tx.commit()
 
-        questionService.createQuestionList(voteDTO.questionList,vote)
+        questionService.createQuestionList(voteDTO.questionList, images, vote)
         return vote
     }
 
-    fun loadMainPageData() : ResponseEntity<Any> {
+    fun loadMainPageData(): ResponseEntity<Any> {
         val popularVoteList = voteRepository.loadPopularVote()
-        val response = HashMap<String,Any>()
+        val response = HashMap<String, Any>()
         response["popularVoteList"] = popularVoteList
         response["test"] = "TTTTTTTTTTTTTTTTTTTTTTTT"
         return ResponseEntity(response, HttpStatus.OK)

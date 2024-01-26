@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 
 @RestController
@@ -20,12 +21,17 @@ class VoteController(
 ) {
 
     @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    suspend fun createVote(@RequestHeader(value = "Authorization") token: String, @RequestPart voteDTO: VoteDTO): Any {
+    suspend fun createVote(
+        @RequestHeader(value = "Authorization") token: String,
+        @RequestPart mainImage: MultipartFile,
+        @RequestPart imageFiles: List<MultipartFile>,
+        voteDTO: VoteDTO
+    ): Any {
         val email =
             redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
-        val vote = voteService.createVote(voteDTO, user)
-        return ResponseEntity<Any>(hashMapOf(Pair("voteUrl",vote.voteUrl)), HttpStatus.OK)
+        val vote = voteService.createVote(voteDTO, mainImage,imageFiles,user)
+        return ResponseEntity<Any>(hashMapOf(Pair("voteUrl", vote.voteUrl)), HttpStatus.OK)
     }
 }
