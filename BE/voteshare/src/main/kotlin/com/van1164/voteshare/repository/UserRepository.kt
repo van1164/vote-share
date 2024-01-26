@@ -2,6 +2,7 @@ package com.van1164.voteshare.repository
 
 import com.van1164.voteshare.EntityManagerObject
 import com.van1164.voteshare.domain.User
+import com.van1164.voteshare.domain.Vote
 import jakarta.persistence.NoResultException
 import jakarta.persistence.NonUniqueResultException
 import org.springframework.stereotype.Repository
@@ -32,5 +33,10 @@ class UserRepository {
             null
         }
 
+    }
+
+    fun addVote(user: User, vote: Vote) {
+        user.voteList.add(vote)
+        em.persist(user)
     }
 }
