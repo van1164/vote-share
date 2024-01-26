@@ -20,20 +20,20 @@ class VoteController(
     val userService: UserService
 ) {
 
-    @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE])
     suspend fun createVote(
         @RequestHeader(value = "Authorization") token: String,
         @RequestPart(value = "mainImage") mainImage: MultipartFile,
         @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
-        @RequestBody voteDTO: VoteDTO
+        @RequestPart(value = "data") voteDTO: VoteDTO
     ): Any {
         println("voteDTO = $voteDTO")
         val email =
             redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
-            println("token = $token")
+        println("token = $token")
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
-        val vote = voteService.createVote(voteDTO, mainImage,imageFiles,user)
+        val vote = voteService.createVote(voteDTO, mainImage, imageFiles, user)
         return ResponseEntity<Any>(hashMapOf(Pair("voteUrl", vote.voteUrl)), HttpStatus.OK)
     }
 }
