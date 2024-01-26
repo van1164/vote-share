@@ -20,12 +20,12 @@ class VoteController(
     val userService: UserService
 ) {
 
-    @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE])
     suspend fun createVote(
         @RequestHeader(value = "Authorization") token: String,
         @RequestPart(value = "mainImage") mainImage: MultipartFile,
         @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
-        @ModelAttribute(value = "data") voteDTO: VoteDTO
+        @RequestBody voteDTO: VoteDTO
     ): Any {
         println("voteDTO = $voteDTO")
         val email =
