@@ -28,6 +28,7 @@ class VoteController(
         @RequestPart(value = "data") voteDTO: VoteDTO
     ): Any {
         println("voteDTO = $voteDTO")
+        println("token = $token")
         val email =
             redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
         println("token = $token")
