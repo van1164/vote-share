@@ -75,4 +75,13 @@ class VoteService(
         }
     }
 
+    fun voteDetail(voteUrl: String): ResponseEntity<Any> {
+        return try{
+            ResponseEntity(voteRepository.loadVoteDetailByVoteUrl(voteUrl),HttpStatus.OK)
+        } catch (e : IllegalArgumentException ){
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+
+    }
+
 }

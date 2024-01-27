@@ -31,4 +31,9 @@ class VoteRepository {
         val question = em.find(Question::class.java,questionId)
         question.voteNum = question.voteNum +1
     }
+
+    fun loadVoteDetailByVoteUrl(voteUrl: String): Vote? {
+        val jpql = "select v from Vote v where v.voteUrl = voteUrl"
+        return em.createQuery(jpql,Vote::class.java).setParameter("voteUrl",voteUrl).singleResult
+    }
 }
