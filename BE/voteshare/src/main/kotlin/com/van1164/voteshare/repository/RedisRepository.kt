@@ -8,9 +8,9 @@ import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Repository
 
 @Repository
-class RedisRepository {
+class RedisRepository(val redisTemplate: RedisTemplate<String,String>) {
 
-    val redisTemplate by lazy { RedisConfig().redisTemplate() }
+    //val redisTemplate by lazy { RedisConfig().redisTemplate() }
 
     fun save(jwt : String, email : String){
         redisTemplate.opsForValue().set(jwt,email)

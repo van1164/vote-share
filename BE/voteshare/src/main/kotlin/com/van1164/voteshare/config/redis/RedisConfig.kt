@@ -22,7 +22,7 @@ import java.io.IOException
 class RedisConfig {
 
     @Value("\${spring.data.redis.host}")
-    var host : String = "redis"
+    lateinit var host : String
 
     @Value("\${spring.data.redis.port}")
     var port : Int = 6379

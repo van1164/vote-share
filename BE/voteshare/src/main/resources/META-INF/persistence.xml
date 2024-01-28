@@ -6,6 +6,7 @@
         <class>com.van1164.voteshare.domain.User</class>
         <class>com.van1164.voteshare.domain.Vote</class>
         <class>com.van1164.voteshare.domain.Question</class>
+        <class>com.van1164.voteshare.domain.UserVote</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
