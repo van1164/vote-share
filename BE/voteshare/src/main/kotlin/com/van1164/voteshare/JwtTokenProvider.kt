@@ -17,7 +17,8 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.util.*
-
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
 
 
 @Component
@@ -51,15 +52,15 @@ class JwtTokenProvider {
 
     fun getAuthentication(token: String): Authentication {
         val claims = getClaims(token)
-
         val auth = claims["auth"] ?: throw RuntimeException("잘못된 토큰입니다.")
-
-        val authorities: Collection<GrantedAuthority> = (auth as String)
+        val email = (auth as LinkedHashMap<*, *>)["sub"] as String
+        val authorities: Collection<GrantedAuthority> = (auth.toString())
                 .split(",")
                 .map { SimpleGrantedAuthority(it) }
 
-        val principal: UserDetails = User(claims.subject, "", authorities)
-
+        val principal: UserDetails = User(email, "", authorities)
+        println(principal)
+        println(email)
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }
 
