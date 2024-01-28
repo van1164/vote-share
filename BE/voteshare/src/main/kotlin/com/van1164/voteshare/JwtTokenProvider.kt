@@ -60,7 +60,7 @@ class JwtTokenProvider {
 
         val principal: UserDetails = User(email, "", authorities)
         println(principal)
-        println(email)
+        println(email)  //redis에서 토큰 있는지도 한번 더 체크 구현해야함
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }
 
