@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["api/v1/user"])
+@PreAuthorize("isAuthenticated()")
 class UserController(val userService: UserService, val redisService: RedisService) {
 
     @GetMapping("/loginPage")
@@ -24,7 +25,7 @@ class UserController(val userService: UserService, val redisService: RedisServic
     }
 
     @GetMapping("/mypage")
-    fun createUser(
+    fun getMyPage(
         @RequestHeader(value = "Authorization") token: String
     ): ResponseEntity<Any> {
         val email =
