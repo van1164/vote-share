@@ -10,6 +10,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,6 +23,7 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/")
+@PreAuthorize("isAuthenticated()")
 class S3TestController(val amazonS3Client : AmazonS3) {
 
 
