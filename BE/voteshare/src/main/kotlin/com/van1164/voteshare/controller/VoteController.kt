@@ -33,8 +33,10 @@ class VoteController(
             redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
+        println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
         println(voteDTO)
         println(imageFiles.size)
+        println(":::::LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
         val vote = voteService.createVote(voteDTO, mainImage, imageFiles, user)
         return ResponseEntity<Any>(hashMapOf(Pair("voteUrl", vote.voteUrl)), HttpStatus.OK)
     }
