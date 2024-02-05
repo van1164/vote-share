@@ -55,6 +55,7 @@ class VoteService(
             createDate,
             updatedDate,
             user,
+            maxSelectItem = voteDTO.maxSelectItem,
             mainImageUrl = profileImageUrl,
             publicShare = voteDTO.publicShare
         )

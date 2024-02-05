@@ -31,6 +31,8 @@ data class Vote(
         @JoinColumn(name = "USER_ID", nullable = false)
         val user: User,
 
+        @Column(name = "max_select_item")
+        val maxSelectItem : Int,
 
         @Id
         @GeneratedValue
