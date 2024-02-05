@@ -18,6 +18,8 @@ class S3Service(val amazonS3Client : AmazonS3) {
 
     suspend fun uploadMultipleImages(images : List<MultipartFile?>): List<String?> {
         val imageUrls = images.map{ it?.let {ServiceUtil.createUUID() + it.contentType} ?: run{null}}
+        println(images)
+        println(images.size)
         withContext(Dispatchers.IO) {
             val uploadJobs = images.filterNotNull().mapIndexed { index, it ->
                 val objectMetadata = ObjectMetadata().apply {
