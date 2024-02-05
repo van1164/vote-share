@@ -4,6 +4,7 @@ import com.van1164.voteshare.EntityManagerObject
 import com.van1164.voteshare.domain.Question
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.PopularVoteResponseDTO
+import com.van1164.voteshare.dto.VoteDetailDTO
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -32,8 +33,8 @@ class VoteRepository {
         question.voteNum = question.voteNum +1
     }
 
-    fun loadVoteDetailByVoteUrl(voteUrl: String): Vote? {
-        val jpql = "select v from Vote v where v.voteUrl =: voteUrl"
-        return em.createQuery(jpql,Vote::class.java).setParameter("voteUrl",voteUrl).singleResult
+    fun loadVoteDetailByVoteUrl(voteUrl: String): VoteDetailDTO? {
+        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.questionList) from Vote v where v.voteUrl =: voteUrl"
+        return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("voteUrl",voteUrl).singleResult
     }
 }
