@@ -34,7 +34,7 @@ class VoteRepository {
     }
 
     fun loadVoteDetailByVoteUrl(voteUrl: String): VoteDetailDTO? {
-        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.questionList) from Vote v where v.voteUrl =: voteUrl"
+        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate) from Vote v where v.voteUrl =: voteUrl"
         return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("voteUrl",voteUrl).singleResult
     }
 }
