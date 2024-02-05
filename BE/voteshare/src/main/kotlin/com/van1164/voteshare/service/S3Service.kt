@@ -16,10 +16,10 @@ import java.util.*
 @Service
 class S3Service(val amazonS3Client : AmazonS3) {
 
-    suspend fun uploadMultipleImages(images : List<MultipartFile>): List<String> {
-        val imageUrls = images.map{ServiceUtil.createUUID() + it.contentType}
+    suspend fun uploadMultipleImages(images : List<MultipartFile?>): List<String?> {
+        val imageUrls = images.map{ it?.let {ServiceUtil.createUUID() + it.contentType} ?: run{null}}
         withContext(Dispatchers.IO) {
-            val uploadJobs = images.mapIndexed {index,it ->
+            val uploadJobs = images.filterNotNull().mapIndexed { index, it ->
                 val objectMetadata = ObjectMetadata().apply {
                     this.contentType = it.contentType
                     this.contentLength = it.size
@@ -39,7 +39,10 @@ class S3Service(val amazonS3Client : AmazonS3) {
         return imageUrls.toList()
     }
 
-    fun uploadImage(image: MultipartFile): String {
+    fun uploadImage(image: MultipartFile?): String? {
+        if (image == null){
+            return null
+        }
         val key = ServiceUtil.createUUID() + image.contentType
         val objectMetadata = ObjectMetadata().apply {
             this.contentType = image.contentType

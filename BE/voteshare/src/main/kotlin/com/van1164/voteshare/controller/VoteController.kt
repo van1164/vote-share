@@ -26,7 +26,7 @@ class VoteController(
     suspend fun createVote(
         @RequestHeader(value = "Authorization") token: String,
         @RequestPart(value = "mainImage") mainImage: MultipartFile,
-        @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
+        @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile?>,
         @RequestPart(value = "data") voteDTO: VoteDTO
     ): Any {
         val email =

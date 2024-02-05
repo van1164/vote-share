@@ -14,7 +14,7 @@ class QuestionService(
 ) : BaseService() {
 
 
-    private fun createQuestion(questionTitle: String, imageUrl: String, vote: Vote) {
+    private fun createQuestion(questionTitle: String, imageUrl: String?, vote: Vote) {
         tx.begin()
         val question = Question(question = questionTitle)
         question.voteSet(vote)
@@ -23,7 +23,7 @@ class QuestionService(
     }
 
     @Transactional
-    suspend fun createQuestionList(questionList: List<String>, questionImageList: List<MultipartFile>, vote: Vote) {
+    suspend fun createQuestionList(questionList: List<String>, questionImageList: List<MultipartFile?>, vote: Vote) {
         val imageUrls = s3Service.uploadMultipleImages(questionImageList)
         questionList.forEachIndexed {index,it ->
             createQuestion(it, imageUrls[index], vote)
