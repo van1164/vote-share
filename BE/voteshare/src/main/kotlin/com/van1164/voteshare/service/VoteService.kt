@@ -25,7 +25,7 @@ class VoteService(
 ) :
     BaseService() {
 
-    suspend fun createVote(voteDTO: VoteDTO, mainImage: MultipartFile?, images: List<MultipartFile?>, user: User): Vote {
+    suspend fun createVote(voteDTO: VoteDTO, mainImage: MultipartFile?, images: List<MultipartFile>, user: User): Vote {
         val vote = voteDtoToVote(mainImage, voteDTO, user)
 
         tx.begin()

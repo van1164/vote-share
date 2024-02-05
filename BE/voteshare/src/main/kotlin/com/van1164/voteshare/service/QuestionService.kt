@@ -16,17 +16,26 @@ class QuestionService(
 
     private fun createQuestion(questionTitle: String, imageUrl: String?, vote: Vote) {
         tx.begin()
-        val question = Question(question = questionTitle)
+        val question = Question(question = questionTitle, voteImageUrl = imageUrl)
         question.voteSet(vote)
         questionRepository.save(question)
         tx.commit()
     }
 
     @Transactional
-    suspend fun createQuestionList(questionList: List<String>, questionImageList: List<MultipartFile?>, vote: Vote) {
+    suspend fun createQuestionList(questionList: List<String>, questionImageList: List<MultipartFile>, vote: Vote) {
         val imageUrls = s3Service.uploadMultipleImages(questionImageList)
+        val existImageIndex =  questionImageList.map{
+            it.name.split(".")[0].toInt()
+        }
         questionList.forEachIndexed {index,it ->
-            createQuestion(it, imageUrls[index], vote)
+            if (index in existImageIndex){
+                createQuestion(it, imageUrls[existImageIndex.indexOf(index)], vote)
+            }
+            else{
+                createQuestion(it, null, vote)
+            }
+
         }
     }
 

@@ -25,8 +25,8 @@ class VoteController(
     @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE])
     suspend fun createVote(
         @RequestHeader(value = "Authorization") token: String,
-        @RequestPart(value = "mainImage") mainImage: MultipartFile,
-        @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile?>,
+        @RequestPart(value = "mainImage") mainImage: MultipartFile?,
+        @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
         @RequestPart(value = "data") voteDTO: VoteDTO
     ): Any {
         val email =
