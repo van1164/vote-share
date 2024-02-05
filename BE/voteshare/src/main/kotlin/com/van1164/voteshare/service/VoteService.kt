@@ -78,8 +78,11 @@ class VoteService(
 
     fun voteDetail(voteUrl: String): ResponseEntity<Any> {
         return try{
-            ResponseEntity(voteRepository.loadVoteDetailByVoteUrl(voteUrl),HttpStatus.OK)
-        } catch (e : IllegalArgumentException ){
+            val response = HashMap<String,Any>()
+            response["vote"] = voteRepository.loadVoteDetailByVoteUrl(voteUrl)
+            response["questionList"] = voteRepository.loadQuestionList(voteUrl)
+            ResponseEntity(response,HttpStatus.OK)
+        } catch (e : Exception ){
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
