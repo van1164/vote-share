@@ -26,6 +26,7 @@ class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFail
             cors { }
             authorizeRequests {
                 authorize("/api/**",authenticated)
+                authorize("/api/**/main_page",permitAll)
             }
             oauth2Login {
                 loginPage = "/loginPage"
