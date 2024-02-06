@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor
 
 @Entity
 @NoArgsConstructor
+@NamedQuery(
+    name = "User.findById",
+    query = "select u from User u where u.email =: email"
+)
 @Table(name = "USER")
 data class User(
     @Id

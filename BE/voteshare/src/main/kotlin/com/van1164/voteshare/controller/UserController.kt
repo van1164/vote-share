@@ -43,7 +43,7 @@ class UserController(val userService: UserService, val redisService: RedisServic
         @RequestHeader(value = "Authorization") token: String
     ): ResponseEntity<Any> {
         val email =
-            redisService.loadByJwt(token) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
+            redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
         userService.loadUserByEmail(email)
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
