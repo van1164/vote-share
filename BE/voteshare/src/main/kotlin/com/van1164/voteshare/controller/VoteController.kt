@@ -42,7 +42,7 @@ class VoteController(
     }
 
     @PostMapping("/vote")
-    suspend fun createVote(
+    suspend fun userVote(
         @RequestHeader(value = "Authorization") token: String,
         @RequestBody userVoteDTO : UserVoteDTO
     ): Any {
