@@ -36,6 +36,7 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
             println("TTTTTTTTTTTTTTTTT:" + redisService.loadByJwt(jwt.accessToken))
             saveUser(email, name, jwt)
         } else{
+            redisService.save(jwt.accessToken,email)
             updateUser(user,jwt)
         }
         response.status = HttpServletResponse.SC_OK
