@@ -4,6 +4,7 @@ import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.UserVote
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.VoteDTO
+import com.van1164.voteshare.dto.VoteDetailDTO
 import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.repository.UserVoteRepository
 import com.van1164.voteshare.repository.VoteRepository
@@ -86,6 +87,10 @@ class VoteService(
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
+    }
+
+    fun loadVoteListByUserId(id: Long): MutableList<VoteDetailDTO> {
+        return voteRepository.loadVoteListByUserId(id)
     }
 
 }

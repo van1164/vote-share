@@ -22,11 +22,15 @@ class UserRepository {
     }
 
     fun loadUserByEmail(email: String): User? {
-        val jpql = "select u from User u join fetch u.voteList where u.email =: email"
+        val userJpql = "select distinct u from User u where u.email =: email"
         return try {
-            em.createQuery(jpql,User::class.java).setParameter("email",email).singleResult
+            println("사용자 찾는중")
+            val userDetail = em.createQuery(userJpql,User::class.java).setParameter("email",email).singleResult
+            println(userDetail)
+            userDetail
         }
         catch (e : NoResultException){
+            println("결과 없음")
             null
         }
         catch (e : NonUniqueResultException){

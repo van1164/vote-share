@@ -3,6 +3,7 @@ package com.van1164.voteshare.controller
 import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.service.RedisService
 import com.van1164.voteshare.service.UserService
+import com.van1164.voteshare.service.VoteService
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping(value = ["api/v1/user"])
 @PreAuthorize("isAuthenticated()")
-class UserController(val userService: UserService, val redisService: RedisService) {
+class UserController(val userService: UserService, val redisService: RedisService, val voteService: VoteService) {
 
     @GetMapping("/loginPage")
     fun loginPage(): String {
@@ -43,11 +44,16 @@ class UserController(val userService: UserService, val redisService: RedisServic
         @RequestHeader(value = "Authorization") token: String
     ): ResponseEntity<Any> {
         val email =
-            redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
-        userService.loadUserByEmail(email)
+            redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>(
+                "Email Not Found",
+                HttpStatus.BAD_REQUEST
+            )
         val user =
             userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
-
+        val vote = voteService.loadVoteListByUserId(user.id!!)
+        val response = hashMapOf<String,Any>()
+        response["user"] = user
+        response["vote"] = vote
         return ResponseEntity(user, HttpStatus.OK)
     }
 

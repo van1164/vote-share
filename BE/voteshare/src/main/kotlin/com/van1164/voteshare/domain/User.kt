@@ -1,8 +1,12 @@
 package com.van1164.voteshare.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import lombok.Builder
 import lombok.NoArgsConstructor
+import lombok.ToString
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 
 @Entity
 @NoArgsConstructor
@@ -10,10 +14,12 @@ import lombok.NoArgsConstructor
     name = "User.findById",
     query = "select u from User u where u.email =: email"
 )
+@ToString(exclude = ["vote"])
 @Table(name = "USER")
 data class User(
     @Id
     @GeneratedValue
+    @Column(name="user_id")
     val id: Long? = null,
 
     @Column(name = "nick_name")
@@ -25,7 +31,9 @@ data class User(
     @Column(name = "access_token")
     var accessToken: String,
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JsonBackReference
     val voteList: MutableList<Vote> = mutableListOf(),
 
     @Column(nullable = false)
@@ -35,4 +43,9 @@ data class User(
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val role : Role
-)
+
+){
+    override fun toString(): String {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
+    }
+}

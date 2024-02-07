@@ -42,4 +42,9 @@ class VoteRepository {
         val jpql = "select q from Question q join q.vote v where v.voteUrl =: voteUrl"
         return em.createQuery(jpql, Question::class.java).setParameter("voteUrl",voteUrl).resultList
     }
+
+    fun loadVoteListByUserId(id: Long): MutableList<VoteDetailDTO> {
+        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate) from Vote v join v.user u where u.id =: userId"
+        return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("userId",id).resultList
+    }
 }

@@ -30,12 +30,12 @@ class UserControllerTest @Autowired constructor(
     lateinit var mockMvc: MockMvc
 
     val testEmail = "test@test.com"
-    val testJwt = "TestJWT"
+    val testJwt = JwtTokenProvider().createToken("test@test.com")
     val testName = "testName"
     @BeforeEach
     fun setUp(){
-        redisService.save(testJwt, testEmail)
-        userService.save(testName, testEmail, testJwt)
+        redisService.save(testJwt.accessToken, testEmail)
+        userService.save(testName, testEmail, testJwt.accessToken)
     }
 
 
@@ -45,7 +45,7 @@ class UserControllerTest @Autowired constructor(
         mockMvc.perform (
             get("/api/v1/user/mypage")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization","TestJWT")
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
         ).andExpect(status().isOk)
             .andExpect(jsonPath("$.email").value(testEmail))
             .andExpect(jsonPath("$.accessToken").value(testJwt))

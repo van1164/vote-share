@@ -91,7 +91,14 @@ class VoteControllerTest @Autowired constructor(
             }
             .andExpect(jsonPath("$.voteUrl").isString)
 
-
+        mockMvc.perform (
+            get("/api/v1/user/mypage")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.email").value(testEmail))
+            .andExpect(jsonPath("$.accessToken").value(testJwt.accessToken))
+            .andExpect(jsonPath("$.nickName").value(testName))
     }
 
 }

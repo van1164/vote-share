@@ -1,16 +1,14 @@
 package com.van1164.voteshare.domain
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import lombok.ToString
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 
 
 @Entity
 @Table(name = "QUESTION")
+@ToString(exclude = ["vote"])
 data class Question(
         @Id
         @GeneratedValue
@@ -25,8 +23,9 @@ data class Question(
         @Column(name = "question_image_url")
         val voteImageUrl: String? = null,
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "VOTE_ID")
+        @ToString.Exclude
         var vote: Vote? = null,
 ) {
     fun voteSet(vote: Vote) {
@@ -35,5 +34,9 @@ data class Question(
         }
         this.vote = vote
         vote.questionList.add(this)
+    }
+
+    override fun toString(): String {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
     }
 }
