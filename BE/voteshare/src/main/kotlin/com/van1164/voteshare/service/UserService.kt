@@ -1,6 +1,5 @@
 package com.van1164.voteshare.service
 
-import com.van1164.voteshare.EntityManagerObject
 import com.van1164.voteshare.domain.OAuth2Provider
 import com.van1164.voteshare.domain.Role
 import com.van1164.voteshare.domain.User
@@ -26,9 +25,17 @@ class UserService(val userRepository: UserRepository):BaseService() {
             role = Role.USER,
             oAuth2Provider = OAuth2Provider.GOOGLE
         )
-        EntityManagerObject.tx.begin()
+        tx.begin()
         userRepository.save(newUser)
-        EntityManagerObject.tx.commit()
+        tx.commit()
+    }
+
+    fun update(user: User, accessToken: String) {
+        tx.begin()
+        userRepository.update(user,accessToken)
+        tx.commit()
+
+
     }
 
 

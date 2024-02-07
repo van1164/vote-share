@@ -39,4 +39,8 @@ class UserRepository {
         user.voteList.add(vote)
         em.persist(user)
     }
+
+    fun update(user: User, accessToken: String) {
+        user.accessToken = accessToken
+    }
 }

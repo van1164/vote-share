@@ -2,6 +2,7 @@ package com.van1164.voteshare.auth
 
 import com.van1164.voteshare.JwtTokenProvider
 import com.van1164.voteshare.domain.TokenInfo
+import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.repository.RedisRepository
 import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.service.RedisService
@@ -34,6 +35,8 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
             redisService.save(jwt.accessToken,email)
             println("TTTTTTTTTTTTTTTTT:" + redisService.loadByJwt(jwt.accessToken))
             saveUser(email, name, jwt)
+        } else{
+            updateUser(user,jwt)
         }
         response.status = HttpServletResponse.SC_OK
         response.contentType = "application/json;charset=UTF-8"
@@ -44,5 +47,9 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
     @Transactional
     fun saveUser(email: String, name: String, jwt: TokenInfo) {
         userService.save(name,email,jwt.accessToken)
+    }
+    @Transactional
+    fun updateUser(user: User, jwt: TokenInfo) {
+        userService.update(user,jwt.accessToken)
     }
 }

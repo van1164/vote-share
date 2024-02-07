@@ -23,7 +23,7 @@ data class User(
     val email: String,
 
     @Column(name = "access_token")
-    val accessToken: String,
+    var accessToken: String,
 
     @OneToMany(mappedBy = "user")
     val voteList: MutableList<Vote> = mutableListOf(),
