@@ -19,7 +19,6 @@ import org.apache.commons.lang3.builder.ToStringStyle
 data class User(
     @Id
     @GeneratedValue
-    @Column(name="user_id")
     val id: Long? = null,
 
     @Column(name = "nick_name")
