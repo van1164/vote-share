@@ -22,7 +22,7 @@ class UserRepository {
     }
 
     fun loadUserByEmail(email: String): User? {
-        val jpql = "select u from User u where u.email =: email"
+        val jpql = "select u from User u join fetch u.voteList where u.email =: email"
         return try {
             em.createQuery(jpql,User::class.java).setParameter("email",email).singleResult
         }
