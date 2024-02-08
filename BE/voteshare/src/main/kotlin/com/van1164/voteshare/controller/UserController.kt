@@ -55,7 +55,7 @@ class UserController(val userService: UserService, val redisService: RedisServic
         val response = hashMapOf<String,Any>()
         response["user"] = user
         response["vote"] = vote
-        return ResponseEntity(user, HttpStatus.OK)
+        return ResponseEntity(response, HttpStatus.OK)
     }
 
 
