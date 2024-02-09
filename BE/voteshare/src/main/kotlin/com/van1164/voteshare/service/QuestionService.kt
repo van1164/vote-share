@@ -8,18 +8,17 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
+@Transactional
 class QuestionService(
     val questionRepository: QuestionRepository,
     val s3Service: S3Service
 ) : BaseService() {
 
-
-    private fun createQuestion(questionTitle: String, imageUrl: String?, vote: Vote) {
-        tx.begin()
+    @Transactional
+    fun createQuestion(questionTitle: String, imageUrl: String?, vote: Vote) {
         val question = Question(question = questionTitle, voteImageUrl = imageUrl)
         question.voteSet(vote)
         questionRepository.save(question)
-        tx.commit()
     }
 
     @Transactional

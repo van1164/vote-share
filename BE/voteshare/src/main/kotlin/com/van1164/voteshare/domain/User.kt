@@ -14,7 +14,6 @@ import org.apache.commons.lang3.builder.ToStringStyle
     name = "User.findById",
     query = "select u from User u where u.email =: email"
 )
-@ToString(exclude = ["vote"])
 @Table(name = "USER")
 data class User(
     @Id
@@ -35,7 +34,7 @@ data class User(
     @JsonBackReference
     val voteList: MutableList<Vote> = mutableListOf(),
 
-    @Column(nullable = false)
+    @Column(name="o_auth_provider",nullable = false)
     @Enumerated(EnumType.STRING)
     val oAuth2Provider : OAuth2Provider,
 

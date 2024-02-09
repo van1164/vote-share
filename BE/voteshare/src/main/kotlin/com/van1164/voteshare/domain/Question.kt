@@ -8,7 +8,6 @@ import org.apache.commons.lang3.builder.ToStringStyle
 
 @Entity
 @Table(name = "QUESTION")
-@ToString(exclude = ["vote"])
 data class Question(
         @Id
         @GeneratedValue

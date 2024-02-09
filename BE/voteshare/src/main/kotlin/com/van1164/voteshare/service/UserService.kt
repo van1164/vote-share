@@ -6,10 +6,12 @@ import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.vo.UserDetailVO
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 
 @Service
+@Transactional
 class UserService(val userRepository: UserRepository):BaseService() {
     fun loadUserById(id: Long): User? {
         return userRepository.loadUserById(id)
@@ -18,6 +20,7 @@ class UserService(val userRepository: UserRepository):BaseService() {
     fun loadUserByEmail(email: String): User? {
         return userRepository.loadUserByEmail(email)
     }
+
 
     fun save(name: String, email: String, accessToken: String) {
         val newUser = User(
@@ -28,15 +31,13 @@ class UserService(val userRepository: UserRepository):BaseService() {
             oAuth2Provider = OAuth2Provider.GOOGLE,
             voteList = mutableListOf<Vote>()
         )
-        tx.begin()
+//        tx.begin()
         userRepository.save(newUser)
-        tx.commit()
+//        tx.commit()
     }
 
     fun update(user: User, accessToken: String) {
-        tx.begin()
         userRepository.update(user,accessToken)
-        tx.commit()
 
 
     }

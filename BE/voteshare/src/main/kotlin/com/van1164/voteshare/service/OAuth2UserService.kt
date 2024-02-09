@@ -12,9 +12,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class OAuth2UserService : DefaultOAuth2UserService() {
-    private val userRepository = UserRepository()
-    private val tx = EntityManagerObject.tx
-    private val jwtTokenProvider = JwtTokenProvider()
     @Transactional
     override fun loadUser(userRequest: OAuth2UserRequest?): OAuth2User {
 //        val user = super.loadUser(userRequest)

@@ -2,15 +2,17 @@ package com.van1164.voteshare.repository
 
 import com.van1164.voteshare.EntityManagerObject
 import com.van1164.voteshare.domain.Question
+import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.PopularVoteResponseDTO
 import com.van1164.voteshare.dto.VoteDetailDTO
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Repository
 
 @Repository
-class VoteRepository {
-    val em = EntityManagerObject.em
+class VoteRepository : BaseRepository() {
 
+    @Transactional
     fun save(vote : Vote){
         em.persist(vote)
     }
@@ -46,5 +48,11 @@ class VoteRepository {
     fun loadVoteListByUserId(id: Long): MutableList<VoteDetailDTO> {
         val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate) from Vote v join v.user u where u.id =: userId"
         return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("userId",id).resultList
+    }
+
+    @Transactional
+    fun addVote(user: User, vote: Vote) {
+        user.voteList.add(vote)
+        em.persist(user)
     }
 }

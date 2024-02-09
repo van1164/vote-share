@@ -9,6 +9,7 @@ import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.repository.UserVoteRepository
 import com.van1164.voteshare.repository.VoteRepository
 import com.van1164.voteshare.util.ServiceUtil
+import jakarta.transaction.Transactional
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -17,6 +18,7 @@ import kotlin.collections.HashMap
 
 
 @Service
+@Transactional
 class VoteService(
     val voteRepository: VoteRepository,
     val questionService: QuestionService,
@@ -26,13 +28,12 @@ class VoteService(
 ) :
     BaseService() {
 
+    @Transactional
     suspend fun createVote(voteDTO: VoteDTO, mainImage: MultipartFile?, images: List<MultipartFile>, user: User): Vote {
         val vote = voteDtoToVote(mainImage, voteDTO, user)
 
-        tx.begin()
-        userRepository.addVote(user,vote)
+        voteRepository.addVote(user,vote)
         voteRepository.save(vote)
-        tx.commit()
 
         questionService.createQuestionList(voteDTO.questionList, images, vote)
         return vote

@@ -9,7 +9,6 @@ import java.util.*
 
 @Entity
 @Table(name ="VOTE")
-@ToString(exclude = ["user","questionList"])
 data class Vote(
 
         @Column(name = "title")

@@ -56,7 +56,7 @@ class VoteControllerTest @Autowired constructor(
                 .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
 
         ).andExpect(
-            jsonPath("$.email").value(testEmail)
+            jsonPath("$.user.email").value(testEmail)
         )
 
         val testImage = MockMultipartFile("mainImage", "1", "png", fileInputStream)
@@ -96,9 +96,9 @@ class VoteControllerTest @Autowired constructor(
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
         ).andExpect(status().isOk)
-            .andExpect(jsonPath("$.email").value(testEmail))
-            .andExpect(jsonPath("$.accessToken").value(testJwt.accessToken))
-            .andExpect(jsonPath("$.nickName").value(testName))
+            .andExpect(jsonPath("$.user.email").value(testEmail))
+            .andExpect(jsonPath("$.user.accessToken").value(testJwt.accessToken))
+            .andExpect(jsonPath("$.user.nickName").value(testName))
     }
 
 }
