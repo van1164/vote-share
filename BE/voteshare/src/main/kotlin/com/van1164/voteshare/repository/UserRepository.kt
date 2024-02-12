@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class UserRepository : BaseRepository(){
 
+    @Transactional
     fun save(user: User) {
         println("유저저장")
         em.persist(user)
@@ -23,7 +24,7 @@ class UserRepository : BaseRepository(){
         return em.find(User::class.java, id)
     }
 
-    @Transactional
+
     fun loadUserByEmail(email: String): User? {
         val userJpql = "select distinct u from User u where u.email =: email"
         return try {
@@ -35,6 +36,7 @@ class UserRepository : BaseRepository(){
             println("결과 없음")
             null
         } catch (e: NonUniqueResultException) {
+            println("여러 데이터")
             null
         }
 

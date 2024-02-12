@@ -62,7 +62,7 @@ class VoteService(
             publicShare = voteDTO.publicShare
         )
     }
-
+    @Transactional
     fun loadMainPageData(): ResponseEntity<Any> {
         val popularVoteList = voteRepository.loadPopularVote()
         val response = HashMap<String, Any>()
@@ -70,14 +70,14 @@ class VoteService(
         response["test"] = "TTTTTTTTTTTTTTTTTTTTTTTT"
         return ResponseEntity(response, HttpStatus.OK)
     }
-
+    @Transactional
     fun userVote(voteId: Long, questionIdList: List<Long>,userId:Long) {
         questionIdList.forEach {
             voteRepository.vote(voteId,it)
             userVoteRepository.save(UserVote(userId,it,voteId))
         }
     }
-
+    @Transactional
     fun voteDetail(voteUrl: String): ResponseEntity<Any> {
         return try{
             val response = HashMap<String,Any>()
@@ -89,7 +89,7 @@ class VoteService(
         }
 
     }
-
+    @Transactional
     fun loadVoteListByUserId(id: Long): MutableList<VoteDetailDTO> {
         return voteRepository.loadVoteListByUserId(id)
     }

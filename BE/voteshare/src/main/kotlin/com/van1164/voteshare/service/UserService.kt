@@ -21,7 +21,7 @@ class UserService(val userRepository: UserRepository):BaseService() {
         return userRepository.loadUserByEmail(email)
     }
 
-
+    @Transactional
     fun save(name: String, email: String, accessToken: String) {
         val newUser = User(
             nickName = name,
