@@ -22,7 +22,6 @@ import kotlin.collections.HashMap
 class VoteService(
     val voteRepository: VoteRepository,
     val questionService: QuestionService,
-    val userRepository: UserRepository,
     val s3Service: S3Service,
     val userVoteRepository: UserVoteRepository
 ) :
@@ -65,9 +64,10 @@ class VoteService(
     @Transactional
     fun loadMainPageData(): ResponseEntity<Any> {
         val popularVoteList = voteRepository.loadPopularVote()
-        val response = HashMap<String, Any>()
-        response["popularVoteList"] = popularVoteList
-        response["test"] = "TTTTTTTTTTTTTTTTTTTTTTTT"
+        val response = HashMap<String, Any>().apply{
+            put("popularVoteList",popularVoteList)
+
+        }
         return ResponseEntity(response, HttpStatus.OK)
     }
     @Transactional
@@ -80,9 +80,10 @@ class VoteService(
     @Transactional
     fun voteDetail(voteUrl: String): ResponseEntity<Any> {
         return try{
-            val response = HashMap<String,Any>()
-            response["vote"] = voteRepository.loadVoteDetailByVoteUrl(voteUrl)
-            response["questionList"] = voteRepository.loadQuestionList(voteUrl)
+            val response = HashMap<String,Any>().apply {
+                put("vote",voteRepository.loadVoteDetailByVoteUrl(voteUrl))
+                put("questionList",voteRepository.loadQuestionList(voteUrl))
+            }
             ResponseEntity(response,HttpStatus.OK)
         } catch (e : Exception ){
             ResponseEntity(HttpStatus.BAD_REQUEST)
