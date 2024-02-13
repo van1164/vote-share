@@ -10,6 +10,7 @@ import com.van1164.voteshare.repository.UserVoteRepository
 import com.van1164.voteshare.repository.VoteRepository
 import com.van1164.voteshare.util.ServiceUtil
 import jakarta.transaction.Transactional
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -23,7 +24,9 @@ class VoteService(
     val voteRepository: VoteRepository,
     val questionService: QuestionService,
     val s3Service: S3Service,
-    val userVoteRepository: UserVoteRepository
+    val userVoteRepository: UserVoteRepository,
+    @Value("\${aws.s3.bucketUrl}")
+    val bucketUrl : String
 ) :
     BaseService() {
 
@@ -43,7 +46,7 @@ class VoteService(
         voteDTO: VoteDTO,
         user: User
     ): Vote {
-        val profileImageUrl = mainImage?.let { "https://vote-share.s3.ap-northeast-2.amazonaws.com/"+s3Service.uploadImage(it) }
+        val profileImageUrl = mainImage?.let { bucketUrl+s3Service.uploadImage(it) }
         val voteUrl = ServiceUtil.createUUID()
         val title = voteDTO.title
         val subTitle = voteDTO.subTitle
@@ -66,7 +69,6 @@ class VoteService(
         val popularVoteList = voteRepository.loadPopularVote()
         val response = HashMap<String, Any>().apply{
             put("popularVoteList",popularVoteList)
-
         }
         return ResponseEntity(response, HttpStatus.OK)
     }
