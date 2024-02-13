@@ -59,8 +59,8 @@ class VoteControllerTest @Autowired constructor(
             jsonPath("$.user.email").value(testEmail)
         )
 
-        val testImage = MockMultipartFile("mainImage", "1", "png", fileInputStream)
-        val testImages = MockMultipartFile("imageFiles", "2", "png", fileInputStream2)
+        val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
+        val testImages = MockMultipartFile("imageFiles", "1", "png", fileInputStream2)
         val voteDTO = MockMultipartFile(
             "data",
             "",

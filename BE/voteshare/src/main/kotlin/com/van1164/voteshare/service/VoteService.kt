@@ -44,7 +44,7 @@ class VoteService(
         voteDTO: VoteDTO,
         user: User
     ): Vote {
-        val profileImageUrl = mainImage?.let { s3Service.uploadImage(it) }
+        val profileImageUrl = mainImage?.let { "https://vote-share.s3.ap-northeast-2.amazonaws.com/"+s3Service.uploadImage(it) }
         val voteUrl = ServiceUtil.createUUID()
         val title = voteDTO.title
         val subTitle = voteDTO.subTitle

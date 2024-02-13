@@ -1,6 +1,7 @@
 package com.van1164.voteshare.service
 
 import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.van1164.voteshare.util.ServiceUtil
@@ -17,7 +18,7 @@ import java.util.*
 class S3Service(val amazonS3Client : AmazonS3) {
 
     suspend fun uploadMultipleImages(images : List<MultipartFile>): List<String> {
-        val imageUrls = images.map{ it.let {ServiceUtil.createUUID() + it.contentType }}
+        val imageUrls = images.map{ it.let {ServiceUtil.createUUID()}}
         println(images)
         println(images.size)
         withContext(Dispatchers.IO) {
@@ -32,7 +33,7 @@ class S3Service(val amazonS3Client : AmazonS3) {
                             imageUrls[index],
                             it.inputStream,
                             objectMetadata,
-                    )
+                    ).withCannedAcl(CannedAccessControlList.PublicRead)
                     amazonS3Client.putObject(putObjectRequest)
                 }
             }
@@ -45,7 +46,7 @@ class S3Service(val amazonS3Client : AmazonS3) {
         if (image == null){
             return null
         }
-        val key = ServiceUtil.createUUID() + image.contentType
+        val key = ServiceUtil.createUUID()
         val objectMetadata = ObjectMetadata().apply {
             this.contentType = image.contentType
             this.contentLength = image.size
@@ -55,7 +56,7 @@ class S3Service(val amazonS3Client : AmazonS3) {
             key,
             image.inputStream,
             objectMetadata,
-        )
+        ).withCannedAcl(CannedAccessControlList.PublicRead)
         amazonS3Client.putObject(putObjectRequest)
         return key
     }

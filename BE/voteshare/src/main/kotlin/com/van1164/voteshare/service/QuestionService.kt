@@ -16,7 +16,7 @@ class QuestionService(
 
     @Transactional
     fun createQuestion(questionTitle: String, imageUrl: String?, vote: Vote) {
-        val question = Question(question = questionTitle, voteImageUrl = imageUrl)
+        val question = Question(question = questionTitle, voteImageUrl = "https://vote-share.s3.ap-northeast-2.amazonaws.com/$imageUrl")
         question.voteSet(vote)
         questionRepository.save(question)
     }
