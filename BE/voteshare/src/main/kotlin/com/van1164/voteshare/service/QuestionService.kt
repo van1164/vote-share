@@ -30,13 +30,18 @@ class QuestionService(
         println(questionImageList.map{it.originalFilename})
         println("========================================================BBBB")
         val imageUrls = s3Service.uploadMultipleImages(questionImageList)
-        val existImageIndex =  questionImageList.filter{
-            it.originalFilename!! != "null"
-        }.map{it.originalFilename!!.toInt()}
+        val existImageIndex =  questionImageList.map{
+            if(it.originalFilename == "null"){
+                null
+            }else{
+                it.originalFilename!!.toInt()
+            }
+
+        }
 
         questionList.forEachIndexed {index,it ->
-            if (index in existImageIndex){
-                createQuestion(it, imageUrls[existImageIndex.indexOf(index)], vote)
+            if (existImageIndex[index] !=null){
+                createQuestion(it, imageUrls[index], vote)
             }
             else{
                 createQuestion(it, null, vote)
