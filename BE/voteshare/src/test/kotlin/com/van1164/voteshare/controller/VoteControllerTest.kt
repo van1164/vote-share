@@ -1,10 +1,13 @@
 package com.van1164.voteshare.controller
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.van1164.voteshare.JwtTokenProvider
 import com.van1164.voteshare.service.RedisService
 import com.van1164.voteshare.service.UserService
 import com.van1164.voteshare.service.VoteService
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -41,6 +44,61 @@ class VoteControllerTest @Autowired constructor(
     fun setUp() {
         redisService.save(testJwt.accessToken, testEmail)
         userService.save(testName, testEmail, testJwt.accessToken)
+    }
+
+
+
+    @Test
+    @WithMockUser()
+    @DisplayName("vote detail 불러오는 과정")
+    fun loadVoteDetail() {
+        val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
+        val testImages = MockMultipartFile("imageFiles", "1", "png", fileInputStream2)
+        val voteDTO = MockMultipartFile(
+            "data",
+            "",
+            "application/json",
+            "{ \"title\": \"test\", \"subTitle\": \"test\", \"publicShare\": true , \"maxSelectItem\": 3 , \"questionList\": [\"sdf\",\"sdfsf\"]}".toByteArray()
+        )
+
+        val mvcResult = mockMvc.perform(
+            multipart("/api/v1/vote/create_vote")
+                .file(testImage)
+                .file(testImages)
+                .file(voteDTO)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(request().asyncStarted())
+            .andExpect { request().asyncResult("body") }
+            .andReturn()
+
+        var url : String? = null
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isOk)
+            .andDo {
+                println("SSSSSSSSSSSSSSSs")
+                println(it.response.toString())
+                println(it.response.contentAsString)
+                println("XXXXXXXXXXXXXXXXX")
+                val gson = Gson()
+                val type = object : TypeToken<Map<String?,String?>?>() {}.type
+                url = gson.fromJson<Map<String,String>>(it.response.contentAsString,type)["voteUrl"]
+            }
+            .andExpect(jsonPath("$.voteUrl").isString)
+
+        assert(url != null)
+
+        mockMvc.perform (
+            get("/api/v1/vote/vote_detail/$url")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.vote.title").value("test"))
+            .andDo{
+                println(it.response.contentAsString)
+            }
     }
 
 

@@ -1,5 +1,6 @@
 package com.van1164.voteshare.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import lombok.ToString
 import org.apache.commons.lang3.builder.ToStringBuilder
@@ -52,6 +53,7 @@ data class Vote(
 
         @OneToMany(mappedBy = "vote", fetch = FetchType.LAZY)
         @ToString.Exclude
+        @JsonBackReference
         val questionList : MutableList<Question> = mutableListOf<Question>(),
 
         @Column(name= "all_vote_sum")
