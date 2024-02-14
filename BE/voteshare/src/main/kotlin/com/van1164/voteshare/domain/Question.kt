@@ -1,5 +1,6 @@
 package com.van1164.voteshare.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import lombok.ToString
 import org.apache.commons.lang3.builder.ToStringBuilder
@@ -25,6 +26,7 @@ data class Question(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "VOTE_ID")
         @ToString.Exclude
+        @JsonBackReference
         var vote: Vote? = null,
 ) {
     fun voteSet(vote: Vote) {
