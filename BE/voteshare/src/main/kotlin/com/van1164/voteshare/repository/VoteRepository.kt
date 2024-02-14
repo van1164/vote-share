@@ -36,7 +36,7 @@ class VoteRepository : BaseRepository() {
     }
 
     fun loadVoteDetailByVoteUrl(voteUrl: String): VoteDetailDTO {
-        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate) from Vote v where v.voteUrl =: voteUrl"
+        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.mainImageUrl) from Vote v where v.voteUrl =: voteUrl"
         return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("voteUrl",voteUrl).singleResult
     }
 
@@ -46,7 +46,7 @@ class VoteRepository : BaseRepository() {
     }
 
     fun loadVoteListByUserId(id: Long): MutableList<VoteDetailDTO> {
-        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate) from Vote v join v.user u where u.id =: userId"
+        val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.mainImageUrl) from Vote v join v.user u where u.id =: userId"
         return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("userId",id).resultList
     }
 
