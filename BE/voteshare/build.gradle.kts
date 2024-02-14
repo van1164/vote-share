@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.9.21"
 	kotlin("plugin.spring") version "1.9.21"
 	kotlin("plugin.jpa") version "1.9.21"
+	kotlin("kapt") version "1.7.10"
 }
 
 group = "com.van1164"
@@ -51,6 +52,19 @@ dependencies {
 
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.0-RC2")
+
+	// json 직렬화
+	implementation ("com.squareup.retrofit2:converter-gson:2.7.1")
+
+
+	//queryDsl
+	implementation("com.querydsl:querydsl-jpa:5.0.0")
+	implementation("com.querydsl:querydsl-apt:5.0.0")
+	implementation("javax.annotation:javax.annotation-api:1.3.2")
+	implementation("javax.persistence:javax.persistence-api:2.2")
+	annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+
 }
 
 tasks.withType<KotlinCompile> {
