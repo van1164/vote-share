@@ -53,7 +53,7 @@ class VoteControllerTest @Autowired constructor(
     @DisplayName("vote detail 불러오는 과정")
     fun loadVoteDetail() {
         val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
-        val testImages = MockMultipartFile("imageFiles", "1", "png", fileInputStream2)
+        val testImages = MockMultipartFile("imageFiles", "null", "png", fileInputStream2)
         val voteDTO = MockMultipartFile(
             "data",
             "",
