@@ -28,7 +28,7 @@ class QuestionService(
     suspend fun createQuestionList(questionList: List<String>, questionImageList: List<MultipartFile>, vote: Vote) {
         val imageUrls = s3Service.uploadMultipleImages(questionImageList)
         val existImageIndex =  questionImageList.filter{
-            it.originalFilename != null
+            it.originalFilename!! != "null"
         }.map{it.originalFilename!!.toInt()}
 
         questionList.forEachIndexed {index,it ->
