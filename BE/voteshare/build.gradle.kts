@@ -65,6 +65,10 @@ dependencies {
 	annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
+
+	//Spring Batch
+	testImplementation("org.springframework.batch:spring-batch-test")
+	implementation("org.springframework.boot:spring-boot-starter-batch")
 }
 
 tasks.withType<KotlinCompile> {
