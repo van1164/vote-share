@@ -26,6 +26,9 @@ class QuestionService(
 
     @Transactional
     suspend fun createQuestionList(questionList: List<String>, questionImageList: List<MultipartFile>, vote: Vote) {
+        println("========================================================AAAA")
+        println(questionImageList.map{it.originalFilename})
+        println("========================================================BBBB")
         val imageUrls = s3Service.uploadMultipleImages(questionImageList)
         val existImageIndex =  questionImageList.filter{
             it.originalFilename!! != "null"
