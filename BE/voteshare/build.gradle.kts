@@ -26,7 +26,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-web"){
+		exclude("commons-logging","commons-logging")
+	}
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -69,6 +71,10 @@ dependencies {
 	//Spring Batch
 	testImplementation("org.springframework.batch:spring-batch-test")
 	implementation("org.springframework.boot:spring-boot-starter-batch")
+
+	//logger
+	implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
+	//implementation("org.slf4j:slf4j-api:1.7.30")
 }
 
 tasks.withType<KotlinCompile> {
