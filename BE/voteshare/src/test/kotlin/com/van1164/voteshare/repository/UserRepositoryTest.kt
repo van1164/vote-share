@@ -1,6 +1,5 @@
 package com.van1164.voteshare.repository
 
-import com.van1164.voteshare.EntityManagerObject.em
 import com.van1164.voteshare.JwtTokenProvider
 import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.service.RedisService
@@ -26,13 +25,6 @@ class UserRepositoryTest @Autowired constructor(
     fun setUp(){
         redisService.save(testJwt.accessToken, testEmail)
         userService.save(testName, testEmail, testJwt.accessToken)
-    }
-
-    @Test
-    fun loadByEmail(){
-        val jpql = "select u from User u join fetch u.voteList"
-            println("사용자 찾는중")
-            val result= em.createQuery(jpql, User::class.java).singleResult
     }
 
 }
