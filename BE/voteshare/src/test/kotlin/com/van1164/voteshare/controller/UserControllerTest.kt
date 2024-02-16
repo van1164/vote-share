@@ -24,13 +24,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 class UserControllerTest @Autowired constructor(
     var redisService: RedisService,
-    var userService: UserService
+    var userService: UserService,
+    private final val jwtTokenProvider: JwtTokenProvider
 ) {
     @Autowired
     lateinit var mockMvc: MockMvc
 
     val testEmail = "test@test.com"
-    val testJwt = JwtTokenProvider().createToken("test@test.com")
+    val testJwt =jwtTokenProvider.createToken("test@test.com")
     val testName = "testName"
     @BeforeEach
     fun setUp(){

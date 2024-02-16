@@ -3,9 +3,13 @@ package com.van1164.voteshare.controller
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.van1164.voteshare.JwtTokenProvider
+import com.van1164.voteshare.domain.TokenInfo
+import com.van1164.voteshare.repository.RedisRepository
 import com.van1164.voteshare.service.RedisService
 import com.van1164.voteshare.service.UserService
 import com.van1164.voteshare.service.VoteService
+import org.aspectj.lang.annotation.Before
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -16,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.test.context.event.annotation.BeforeTestClass
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.*
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -29,24 +34,16 @@ import java.io.FileInputStream
 class VoteControllerTest @Autowired constructor(
     var redisService: RedisService,
     var userService: UserService,
-    var voteService: VoteService
+    var voteService: VoteService,
+    private final val jwtTokenProvider: JwtTokenProvider
 ) {
     @Autowired
     lateinit var mockMvc: MockMvc
 
-    val testEmail = "test@test.com"
-    val testJwt = JwtTokenProvider().createToken("test@test.com")
-    val testName = "testName"
+
     val fileInputStream = FileInputStream("src/test/resources/test_image.png")
     val fileInputStream2 = FileInputStream("src/test/resources/test_image.png")
-
-    @BeforeEach
-    fun setUp() {
-        redisService.save(testJwt.accessToken, testEmail)
-        userService.save(testName, testEmail, testJwt.accessToken)
-    }
-
-
+    val fileInputStream3 = FileInputStream("src/test/resources/test_image.png")
 
     @Test
     @WithMockUser()
@@ -54,6 +51,7 @@ class VoteControllerTest @Autowired constructor(
     fun loadVoteDetail() {
         val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
         val testImages = MockMultipartFile("imageFiles", "null", "png", fileInputStream2)
+        val testImages2 = MockMultipartFile("imageFiles", "null", "png", fileInputStream3)
         val voteDTO = MockMultipartFile(
             "data",
             "",
@@ -65,6 +63,7 @@ class VoteControllerTest @Autowired constructor(
             multipart("/api/v1/vote/create_vote")
                 .file(testImage)
                 .file(testImages)
+                .file(testImages2)
                 .file(voteDTO)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
@@ -118,7 +117,8 @@ class VoteControllerTest @Autowired constructor(
         )
 
         val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
-        val testImages = MockMultipartFile("imageFiles", "1", "png", fileInputStream2)
+        val testImages = MockMultipartFile("imageFiles", "null", "png", fileInputStream2)
+        val testImages2 = MockMultipartFile("imageFiles", "null", "png", fileInputStream3)
         val voteDTO = MockMultipartFile(
             "data",
             "",
@@ -130,6 +130,7 @@ class VoteControllerTest @Autowired constructor(
             multipart("/api/v1/vote/create_vote")
                 .file(testImage)
                 .file(testImages)
+                .file(testImages2)
                 .file(voteDTO)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
@@ -157,6 +158,32 @@ class VoteControllerTest @Autowired constructor(
             .andExpect(jsonPath("$.user.email").value(testEmail))
             .andExpect(jsonPath("$.user.accessToken").value(testJwt.accessToken))
             .andExpect(jsonPath("$.user.nickName").value(testName))
+    }
+
+    companion object SetUpClass{
+
+        const val testEmail = "test@test.com"
+        lateinit var testJwt: TokenInfo
+        const val testName = "testName"
+        @JvmStatic
+        @BeforeAll
+        fun setUp(
+            @Autowired
+            jwtTokenProvider:JwtTokenProvider,
+            @Autowired
+            userService: UserService,
+            @Autowired
+            redisService :RedisService
+        ) {
+            testJwt = jwtTokenProvider.createToken("test@test.com")
+            println(testJwt.accessToken)
+            redisService.save(testJwt.accessToken, testEmail)
+            userService.save(
+                testName,
+                testEmail,
+                testJwt.accessToken
+            )
+        }
     }
 
 }

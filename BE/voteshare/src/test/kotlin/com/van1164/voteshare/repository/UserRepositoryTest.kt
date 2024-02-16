@@ -16,10 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest
 class UserRepositoryTest @Autowired constructor(
     val userRepository: UserRepository,
     val redisService: RedisService,
-    val userService: UserService
+    val userService: UserService,
+    private final val jwtTokenProvider: JwtTokenProvider
 ){
     val testEmail = "test@test.com"
-    val testJwt = JwtTokenProvider().createToken("test@test.com")
+    val testJwt = jwtTokenProvider.createToken("test@test.com")
     val testName = "testName"
     @BeforeEach
     fun setUp(){
