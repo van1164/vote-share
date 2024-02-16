@@ -37,18 +37,11 @@ jobs:
     # 2. Spring Boot 애플리케이션 빌드
     - name: Build with Gradle
       run: |
-          pwd
-          cd BE
-          cd voteshare
-          cd src
-          cd main
-          cd resources
-          touch .BE/voteshare/src/main/resources/application-oauth.properties
-          touch .BE/voteshare/src/main/resources/application-prod.properties
-          echo "${{ secrets.APPLICATION_PROD }}" > .BE/voteshare/src/main/resources/application-prod.properties
-          echo "${{ secrets.APPLICATION_OAUTH }}" > .BE/voteshare/src/main/resources/application-oauth.properties
-          cat .BE/voteshare/src/main/resources/application-prod.properties
-          cd ~
+          touch BE/voteshare/src/main/resources/application-oauth.properties
+          touch BE/voteshare/src/main/resources/application-prod.properties
+          echo "${{ secrets.APPLICATION_PROD }}" > BE/voteshare/src/main/resources/application-prod.properties
+          echo "${{ secrets.APPLICATION_OAUTH }}" > BE/voteshare/src/main/resources/application-oauth.properties
+          cat BE/voteshare/src/main/resources/application-prod.properties
           cd BE/voteshare
           chmod +x gradlew
           ./gradlew clean build
