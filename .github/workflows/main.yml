@@ -54,6 +54,12 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: .
         target: app
+        script: |
+          touch .app/src/main/resources/application-oauth.properties
+          touch .app/src/main/resources/application-prod.properties
+          echo "${{ secrets.APPLICATION-PROD }}" > .app/src/main/resources/application-prod.properties
+          echo "${{ secrets.APPLICATION-OAUTH }}" > .app/src/main/resources/application-oauth.properties
+          cat .app/src/main/resources/application-prod.properties
     
     - name: SSH into EC2
       uses: appleboy/ssh-action@master
