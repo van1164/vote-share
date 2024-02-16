@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFailureHandler: OAuthFailureHandler) {
+class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFailureHandler: OAuthFailureHandler,val jwtAuthenticationFilter: JwtAuthenticationFilter) {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -25,8 +25,8 @@ class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFail
             csrf { disable() }
             cors { }
             authorizeRequests {
-                authorize("/api/v1/main_page",permitAll)
-                authorize("/api/**",authenticated)
+                authorize("/api/v1/main_page", permitAll)
+                authorize("/api/**", authenticated)
             }
             oauth2Login {
                 loginPage = "/loginPage"
@@ -35,7 +35,7 @@ class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFail
                 authenticationSuccessHandler = oAuthSuccessHandler
                 authenticationFailureHandler = oAuthFailureHandler
             }
-            addFilterBefore<UsernamePasswordAuthenticationFilter> (JwtAuthenticationFilter(JwtTokenProvider()))
+            addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtAuthenticationFilter)
         }
         return http.build()
     }

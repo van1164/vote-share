@@ -35,7 +35,8 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation ("com.mysql:mysql-connector-j:8.3.0")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    testImplementation("org.testng:testng:7.1.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	compileOnly ("org.projectlombok:lombok")
 

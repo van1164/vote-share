@@ -23,9 +23,11 @@ import kotlin.collections.LinkedHashMap
 
 @Component
 @RequiredArgsConstructor
-class JwtTokenProvider {
+class JwtTokenProvider(
     @Value("\${jwt.secret}")
-    private var secretKey: String = "ThisIsTestKeyThisIsTestKeyThisIsTestKeyThisIsTestKeyThasdfsdf"
+    var secretKey: String
+) {
+
     val EXPIRATION_MILLISECONDS: Long = 1000 * 60 * 30
     private val key by lazy { Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey)) }
 
