@@ -44,26 +44,41 @@ class VoteControllerTest @Autowired constructor(
     val fileInputStream = FileInputStream("src/test/resources/test_image.png")
     val fileInputStream2 = FileInputStream("src/test/resources/test_image.png")
     val fileInputStream3 = FileInputStream("src/test/resources/test_image.png")
+    val fileInputStream4 = FileInputStream("src/test/resources/test_image.png")
+    val fileInputStream5 = FileInputStream("src/test/resources/test_image.png")
+
+
+    @BeforeEach
+    fun setUp() {
+        redisService.save(testJwt.accessToken, testEmail)
+        userService.save(testName, testEmail, testJwt.accessToken)
+    }
+
+
 
     @Test
     @WithMockUser()
     @DisplayName("vote detail 불러오는 과정")
     fun loadVoteDetail() {
         val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
-        val testImages = MockMultipartFile("imageFiles", "null", "png", fileInputStream2)
+        val testImages = MockMultipartFile("imageFiles", "1", "png", fileInputStream2)
         val testImages2 = MockMultipartFile("imageFiles", "null", "png", fileInputStream3)
+        val testImages4 = MockMultipartFile("imageFiles", "null", "png", fileInputStream5)
+        val testImages3 = MockMultipartFile("imageFiles", "3", "png", fileInputStream4)
         val voteDTO = MockMultipartFile(
             "data",
             "",
             "application/json",
-            "{ \"title\": \"test\", \"subTitle\": \"test\", \"publicShare\": true , \"maxSelectItem\": 3 , \"questionList\": [\"sdf\",\"sdfsf\"]}".toByteArray()
+            "{ \"title\": \"test\", \"subTitle\": \"test\", \"publicShare\": true , \"maxSelectItem\": 3 , \"questionList\": [\"sdf\",\"sdfsf\",\"sdfsf\",\"sdfsf\"]}".toByteArray()
         )
 
         val mvcResult = mockMvc.perform(
             multipart("/api/v1/vote/create_vote")
                 .file(testImage)
-                .file(testImages)
                 .file(testImages2)
+                .file(testImages3)
+                .file(testImages)
+                .file(testImages4)
                 .file(voteDTO)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
