@@ -31,6 +31,7 @@ class VoteTasklet(
         //write
         popularVoteRepository.resetAndSave(popularVoteIdList)
 
+        log.info { "tasklet end" }
         return RepeatStatus.FINISHED
     }
 }

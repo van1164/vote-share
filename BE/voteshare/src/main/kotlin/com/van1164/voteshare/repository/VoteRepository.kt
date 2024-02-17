@@ -16,6 +16,7 @@ class VoteRepository : BaseRepository() {
         em.persist(vote)
     }
 
+    @Transactional
     fun loadPopularVote(): MutableList<PopularVoteResponseDTO> {
         val jpql = "select new com.van1164.voteshare.dto.PopularVoteResponseDTO(v.title,v.voteUrl, v.id,v.mainImageUrl,v.allVoteSum) from Vote v where v.publicShare =true  order by allVoteSum DESC"
         val voteList = em.createQuery(jpql,PopularVoteResponseDTO::class.java).resultList
