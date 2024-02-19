@@ -23,9 +23,9 @@ class PopularVoteRepository: BaseRepository() {
     }
 
     @Transactional
-    fun getPopularVote(): MutableList<PopularVote> {
+    fun getPopularVoteIdList(): List<Long?> {
         val findAllJpql = "select p from PopularVote p"
-        return em.createQuery(findAllJpql, PopularVote::class.java).resultList
+        return em.createQuery(findAllJpql, PopularVote::class.java).resultList.map{it.voteId}
     }
 
 }

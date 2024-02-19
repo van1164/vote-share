@@ -68,7 +68,8 @@ class VoteService(
     }
     @Transactional
     fun loadMainPageData(): ResponseEntity<Any> {
-        val popularVoteList = popularVoteRepository.getPopularVote()
+
+        val popularVoteList = voteRepository.loadVoteListById(popularVoteRepository.getPopularVoteIdList())
         val response = HashMap<String, Any>().apply{
             put("popularVoteList",popularVoteList)
         }
