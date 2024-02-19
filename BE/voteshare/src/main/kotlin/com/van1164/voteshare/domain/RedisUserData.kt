@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.RedisHash
 
 
 @RedisHash(value = "jwt")
-data class JwtRedisData(
+data class RedisUserData(
         @Id
         val jwt : String,
 

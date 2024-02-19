@@ -11,5 +11,6 @@ data class VoteDetailDTO constructor(
     val maxSelectItem : Int,
     val allVoteSum : Int,
     val updatedDate : Date,
-    val mainImageUrl: String?
+    val mainImageUrl: String?,
+    val voteUrl : String
 )
