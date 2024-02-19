@@ -48,13 +48,6 @@ class VoteControllerTest @Autowired constructor(
     val fileInputStream5 = FileInputStream("src/test/resources/test_image.png")
 
 
-    @BeforeEach
-    fun setUp() {
-        redisService.save(testJwt.accessToken, testEmail)
-        userService.save(testName, testEmail, testJwt.accessToken)
-    }
-
-
 
     @Test
     @WithMockUser()
@@ -171,8 +164,19 @@ class VoteControllerTest @Autowired constructor(
                 .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
         ).andExpect(status().isOk)
             .andExpect(jsonPath("$.user.email").value(testEmail))
-            .andExpect(jsonPath("$.user.accessToken").value(testJwt.accessToken))
             .andExpect(jsonPath("$.user.nickName").value(testName))
+            .andDo{
+                Thread.sleep(30000)
+            }
+
+        mockMvc.perform (
+            get("/api/v1/main_page")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andDo{
+                println(it.response.contentAsString)
+            }
     }
 
     companion object SetUpClass{
@@ -192,12 +196,12 @@ class VoteControllerTest @Autowired constructor(
         ) {
             testJwt = jwtTokenProvider.createToken("test@test.com")
             println(testJwt.accessToken)
-            redisService.save(testJwt.accessToken, testEmail)
-            userService.save(
+            val testUser=  userService.save(
                 testName,
                 testEmail,
                 testJwt.accessToken
             )
+            redisService.save(testJwt.accessToken, testUser)
         }
     }
 

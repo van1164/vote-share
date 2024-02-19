@@ -44,13 +44,11 @@ class UserController(val userService: UserService, val redisService: RedisServic
     fun getMyPage(
         @RequestHeader(value = "Authorization") token: String
     ): ResponseEntity<Any> {
-        val email =
+        val user =
             redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>(
                 "Email Not Found",
                 HttpStatus.BAD_REQUEST
             )
-        val user =
-            userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
         val vote = voteService.loadVoteListByUserId(user.id!!)
         val response = hashMapOf<String,Any>()
         response["user"] = user

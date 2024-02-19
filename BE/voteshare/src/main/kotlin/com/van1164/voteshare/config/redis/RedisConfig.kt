@@ -1,5 +1,6 @@
 package com.van1164.voteshare.config.redis
 
+import com.van1164.voteshare.domain.RedisUserData
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
 import lombok.RequiredArgsConstructor

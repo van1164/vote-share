@@ -29,28 +29,24 @@ class VoteController(
         @RequestPart(value = "imageFiles") imageFiles: List<MultipartFile>,
         @RequestPart(value = "data") voteDTO: VoteDTO
     ): Any {
-        val email =
+        val redisUser =
             redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
         val user =
-            userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
-        println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
-        println(voteDTO)
-        println(imageFiles.size)
-        println(":::::LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+            userService.loadUserByEmail(redisUser.email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
+
+
         val vote = voteService.createVote(voteDTO, mainImage, imageFiles, user)
         return ResponseEntity<Any>(hashMapOf(Pair("voteUrl", vote.voteUrl)), HttpStatus.OK)
     }
 
     @PostMapping("/vote")
-    suspend fun userVote(
+    fun userVote(
         @RequestHeader(value = "Authorization") token: String,
         @RequestBody userVoteDTO : UserVoteDTO
     ): Any {
-        val email =
+        val redisUser =
             redisService.loadByJwt(token.split(" ")[1]) ?: return ResponseEntity<Any>("Email Not Found", HttpStatus.BAD_REQUEST)
-        val user =
-            userService.loadUserByEmail(email) ?: return ResponseEntity<Any>("User Not Found", HttpStatus.BAD_REQUEST)
-        voteService.userVote(userVoteDTO.voteId,userVoteDTO.questionIdList, user.id!!)
+        voteService.userVote(userVoteDTO.voteId,userVoteDTO.questionIdList, redisUser.id!!)
         return ResponseEntity<Any>("성공", HttpStatus.OK)
     }
 

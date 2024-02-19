@@ -22,7 +22,7 @@ class UserService(val userRepository: UserRepository):BaseService() {
     }
 
     @Transactional
-    fun save(name: String, email: String, accessToken: String) {
+    fun save(name: String, email: String, accessToken: String): User {
         val newUser = User(
             nickName = name,
             email = email,
@@ -34,6 +34,7 @@ class UserService(val userRepository: UserRepository):BaseService() {
 //        tx.begin()
         userRepository.save(newUser)
 //        tx.commit()
+        return newUser
     }
 
     fun update(user: User, accessToken: String) {

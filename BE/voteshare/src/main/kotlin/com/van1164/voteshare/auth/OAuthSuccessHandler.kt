@@ -32,11 +32,12 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
         val user = userService.loadUserByEmail(email)
         val jwt = jwtTokenProvider.createToken(email)
         if (user == null) {
-            redisService.save(jwt.accessToken,email)
+            val newUser =  saveUser(email, name, jwt)
+            redisService.save(jwt.accessToken,newUser)
             println("TTTTTTTTTTTTTTTTT:" + redisService.loadByJwt(jwt.accessToken))
-            saveUser(email, name, jwt)
+
         } else{
-            redisService.save(jwt.accessToken,email)
+            redisService.save(jwt.accessToken,user)
             updateUser(user,jwt)
         }
         response.status = HttpServletResponse.SC_OK
@@ -46,8 +47,8 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
     }
 
     @Transactional
-    fun saveUser(email: String, name: String, jwt: TokenInfo) {
-        userService.save(name,email,jwt.accessToken)
+    fun saveUser(email: String, name: String, jwt: TokenInfo): User {
+        return userService.save(name,email,jwt.accessToken)
     }
     @Transactional
     fun updateUser(user: User, jwt: TokenInfo) {

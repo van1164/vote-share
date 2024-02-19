@@ -35,8 +35,9 @@ class UserControllerTest @Autowired constructor(
     val testName = "testName"
     @BeforeEach
     fun setUp(){
-        redisService.save(testJwt.accessToken, testEmail)
-        userService.save(testName, testEmail, testJwt.accessToken)
+        val testUser = userService.save(testName, testEmail, testJwt.accessToken)
+        redisService.save(testJwt.accessToken, testUser)
+
     }
 
 

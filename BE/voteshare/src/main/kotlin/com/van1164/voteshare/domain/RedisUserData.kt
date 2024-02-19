@@ -1,13 +1,14 @@
 package com.van1164.voteshare.domain
 
-import jakarta.persistence.Id
+import com.fasterxml.jackson.annotation.JsonBackReference
+import jakarta.persistence.*
+import lombok.ToString
 import org.springframework.data.redis.core.RedisHash
 
 
-@RedisHash(value = "jwt")
-data class RedisUserData(
-        @Id
-        val jwt : String,
 
-        val email : String
+data class RedisUserData(
+        val id: Long? = null,
+        val nickName: String,
+        val email: String,
 )
