@@ -17,7 +17,7 @@ class SchedulerConfig(
     val jobConfig: JobConfig
 ) {
     val log = KotlinLogging.logger {  }
-    @Scheduled(fixedRate  = 100000) //임시로 10초마다 생성
+    @Scheduled(fixedRate  = 10000) //임시로 10초마다 생성
     fun popularVoteRenew(){
         log.info{"popularVoteRenew Start"}
 
