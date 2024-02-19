@@ -42,7 +42,7 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
         response.status = HttpServletResponse.SC_OK
         response.contentType = "application/json;charset=UTF-8"
         response.addHeader("Authorization",jwt.accessToken)
-        response.sendRedirect("http://vote-share.o-r.kr:3000/access/google?code="+jwt.accessToken)
+        response.sendRedirect("http://vote-share.o-r.kr/access/google?code="+jwt.accessToken)
     }
 
     @Transactional
