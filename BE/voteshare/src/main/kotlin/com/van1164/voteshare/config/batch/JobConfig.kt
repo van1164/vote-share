@@ -27,6 +27,7 @@ class JobConfig(
     fun step(): Step {
         return StepBuilder("step", jobRepository)
             .tasklet(tasklet, transactionManager)
+            .allowStartIfComplete(true)
             .build()
     }
 }
