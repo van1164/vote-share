@@ -5,6 +5,7 @@ import com.van1164.voteshare.domain.UserVote
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.VoteDTO
 import com.van1164.voteshare.dto.VoteDetailDTO
+import com.van1164.voteshare.repository.PopularVoteRepository
 import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.repository.UserVoteRepository
 import com.van1164.voteshare.repository.VoteRepository
@@ -26,7 +27,8 @@ class VoteService(
     val s3Service: S3Service,
     val userVoteRepository: UserVoteRepository,
     @Value("\${aws.s3.bucketUrl}")
-    val bucketUrl : String
+    val bucketUrl : String,
+    val popularVoteRepository: PopularVoteRepository
 ) :
     BaseService() {
 
@@ -66,7 +68,7 @@ class VoteService(
     }
     @Transactional
     fun loadMainPageData(): ResponseEntity<Any> {
-        val popularVoteList = voteRepository.loadPopularVote()
+        val popularVoteList = popularVoteRepository.getPopularVote()
         val response = HashMap<String, Any>().apply{
             put("popularVoteList",popularVoteList)
         }
