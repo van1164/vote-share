@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile
 
 
 @RestController
-@PreAuthorize("isAuthenticated()")
 @RequestMapping("api/v1/vote")
 class VoteController(
     val voteService: VoteService,
@@ -21,7 +20,7 @@ class VoteController(
     val redisService: RedisService,
     val userService: UserService
 ) {
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create_vote", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE])
     suspend fun createVote(
         @RequestHeader(value = "Authorization") token: String,
@@ -39,6 +38,7 @@ class VoteController(
         return ResponseEntity<Any>(hashMapOf(Pair("voteUrl", vote.voteUrl)), HttpStatus.OK)
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/vote")
     fun userVote(
         @RequestHeader(value = "Authorization") token: String,
@@ -49,7 +49,7 @@ class VoteController(
         voteService.userVote(userVoteDTO.voteId,userVoteDTO.questionIdList, redisUser.id!!)
         return ResponseEntity<Any>("성공", HttpStatus.OK)
     }
-
+    
     @GetMapping("/vote_detail/{vote_url}")
     fun viewVote(@PathVariable(value = "vote_url") voteUrl : String) : Any{
         return voteService.voteDetail(voteUrl)
