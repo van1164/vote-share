@@ -14,5 +14,6 @@ data class VoteDTO(
     val subTitle: String,
     val publicShare: Boolean,
     val maxSelectItem : Int,
-    val questionList: MutableList<String>
+    val questionList: MutableList<String>,
+    val passWord : String?
 )

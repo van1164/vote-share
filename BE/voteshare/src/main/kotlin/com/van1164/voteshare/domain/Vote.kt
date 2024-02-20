@@ -62,6 +62,9 @@ data class Vote(
         @Column(name = "public_share")
         val publicShare : Boolean = true,
 
+        @Column(name = "pass_word")
+        val passWord : String? = null,
+
 ){
 
         override fun toString(): String {

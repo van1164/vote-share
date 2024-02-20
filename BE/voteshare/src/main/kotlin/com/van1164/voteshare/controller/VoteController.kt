@@ -49,7 +49,7 @@ class VoteController(
         voteService.userVote(userVoteDTO.voteId,userVoteDTO.questionIdList, redisUser.id!!)
         return ResponseEntity<Any>("성공", HttpStatus.OK)
     }
-    
+
     @GetMapping("/vote_detail/{vote_url}")
     fun viewVote(@PathVariable(value = "vote_url") voteUrl : String) : Any{
         return voteService.voteDetail(voteUrl)

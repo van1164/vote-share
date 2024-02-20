@@ -63,7 +63,8 @@ class VoteService(
             user,
             maxSelectItem = voteDTO.maxSelectItem,
             mainImageUrl = profileImageUrl,
-            publicShare = voteDTO.publicShare
+            publicShare = voteDTO.publicShare,
+            passWord = voteDTO.passWord
         )
     }
     @Transactional
