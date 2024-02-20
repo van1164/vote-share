@@ -4,33 +4,24 @@ services:
     image: van133/vote_share:latest
     ports:
       - "8080:8080"
-    depends_on:
-      - redis
-      - db-mysql
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/vote_share
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ttink1245!
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SPRING_REDIS_PASSWORD: ttin1k245!
     restart: unless-stopped
 
 
-  redis:
-    image: "redis:latest"
-    ports:
-      - "6379:6379"
-    expose:
-      - "6379"
+  nginx:
+    image: nginx:1.15-alpine
     restart: unless-stopped
-  db-mysql:
-    image: "mysql:latest"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
-      - "3306:3306"
-    expose:
-      - "3306"
-    environment:
-      MYSQL_DATABASE: vote_share
-      MYSQL_ROOT_PASSWORD: ttink1245!
+      - "80:80"
+      - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
     restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
