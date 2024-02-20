@@ -78,4 +78,5 @@ jobs:
           sudo chmod 755 $DESTINATION
           sudo systemctl start docker
           sudo docker pull van133/vote_share
-          sudo docker run -p 8080:8080 -d van133/vote_share
+          sudo docker-compose up -d
+          # sudo docker run -p 8080:8080 -d van133/vote_share
