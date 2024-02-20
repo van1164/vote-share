@@ -2,6 +2,7 @@ version: '1'
 services:
   spring-app:
     image: van133/vote_share:latest
+    container_name: vote_share
     ports:
       - "8080:8080"
     restart: unless-stopped
