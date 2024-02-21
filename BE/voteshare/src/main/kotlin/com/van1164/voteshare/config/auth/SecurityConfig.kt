@@ -25,6 +25,7 @@ class SecurityConfig(val oAuthSuccessHandler: OAuthSuccessHandler, val oAuthFail
             csrf { disable() }
             cors { }
             authorizeRequests {
+                authorize("/api/v1/vote/detail_page/**", permitAll)
                 authorize("/api/v1/main_page", permitAll)
                 authorize("/api/**", authenticated)
             }
