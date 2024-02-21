@@ -38,7 +38,6 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
 
         } else{
             redisService.save(jwt.accessToken,user)
-            updateUser(user,jwt)
         }
         response.status = HttpServletResponse.SC_OK
         response.contentType = "application/json;charset=UTF-8"
@@ -49,9 +48,5 @@ class OAuthSuccessHandler(val userService: UserService,val redisService: RedisSe
     @Transactional
     fun saveUser(email: String, name: String, jwt: TokenInfo): User {
         return userService.save(name,email,jwt.accessToken)
-    }
-    @Transactional
-    fun updateUser(user: User, jwt: TokenInfo) {
-        userService.update(user,jwt.accessToken)
     }
 }

@@ -22,11 +22,10 @@ class UserService(val userRepository: UserRepository):BaseService() {
     }
 
     @Transactional
-    fun save(name: String, email: String, accessToken: String): User {
+    fun save(name: String, email: String): User {
         val newUser = User(
             nickName = name,
             email = email,
-            accessToken = accessToken,
             role = Role.USER,
             oAuth2Provider = OAuth2Provider.GOOGLE,
             voteList = mutableListOf<Vote>()
@@ -37,11 +36,7 @@ class UserService(val userRepository: UserRepository):BaseService() {
         return newUser
     }
 
-    fun update(user: User, accessToken: String) {
-        userRepository.update(user,accessToken)
 
-
-    }
 
 
 }

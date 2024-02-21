@@ -26,9 +26,6 @@ data class User(
     @Column(name = "e_mail")
     val email: String,
 
-    @Column(name = "access_token")
-    var accessToken: String,
-
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     @ToString.Exclude
     @JsonBackReference

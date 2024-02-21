@@ -44,7 +44,4 @@ class UserRepository : BaseRepository(){
 
 
 
-    fun update(user: User, accessToken: String) {
-        user.accessToken = accessToken
-    }
 }
