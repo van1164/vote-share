@@ -28,9 +28,7 @@ class VoteRepository : BaseRepository() {
         }
     }
 
-    fun vote(voteId: Long, questionId: Long) {
-        val vote = em.find(Vote::class.java,voteId)
-        vote.allVoteSum = vote.allVoteSum+1
+    fun vote(questionId: Long) {
         val question = em.find(Question::class.java,questionId)
         question.voteNum = question.voteNum +1
     }
@@ -59,5 +57,13 @@ class VoteRepository : BaseRepository() {
     fun loadVoteListById(popularVoteIdList: List<Long?>): Any {
         val jpql = "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.mainImageUrl,v.voteUrl) from Vote v where v.id in (:idList) order by v.allVoteSum desc "
         return em.createQuery(jpql,VoteDetailDTO::class.java).setParameter("idList",popularVoteIdList).resultList
+    }
+
+    fun loadVoteById(voteId: Long): Vote {
+        return em.find(Vote::class.java,voteId)
+    }
+
+    fun plusVoteSum(vote: Vote) {
+        vote.allVoteSum = vote.allVoteSum+1
     }
 }

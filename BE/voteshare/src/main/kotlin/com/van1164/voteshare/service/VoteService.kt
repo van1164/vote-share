@@ -78,8 +78,10 @@ class VoteService(
     }
     @Transactional
     fun userVote(voteId: Long, questionIdList: List<Long>,userId:Long) {
+        val vote = voteRepository.loadVoteById(voteId)
+        voteRepository.plusVoteSum(vote)
         questionIdList.forEach {
-            voteRepository.vote(voteId,it)
+            voteRepository.vote(it)
             userVoteRepository.save(UserVote(userId,it,voteId))
         }
     }
