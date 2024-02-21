@@ -178,8 +178,75 @@ class VoteControllerTest @Autowired constructor(
             .andDo{
                 println(it.response.contentAsString)
             }
+
+        mockMvc.perform (
+            get("/api/v1/vote/vote_detail/$url")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.vote.title").value("test"))
+            .andExpect(jsonPath("$.userVote.voteId").value(1L))
+            .andExpect(jsonPath("$.userVote.questionId").value(1L))
+            .andDo{
+                println(it.response.contentAsString)
+            }
     }
 
+
+    @Test
+    @WithMockUser
+    @DisplayName("디테일 조회시 사용자가 투표하지 않은 경우")
+    fun userVotingWithNoVote(){
+        val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
+        val testImages = MockMultipartFile("imageFiles", "null", "png", fileInputStream2)
+        val testImages2 = MockMultipartFile("imageFiles", "null", "png", fileInputStream3)
+        val voteDTO = MockMultipartFile(
+            "data",
+            "",
+            "application/json",
+            "{ \"title\": \"test\", \"subTitle\": \"test\", \"publicShare\": true , \"maxSelectItem\": 3 , \"questionList\": [\"sdf\",\"sdfsf\"]}".toByteArray()
+        )
+        var url:String? = null
+        val mvcResult = mockMvc.perform(
+            multipart("/api/v1/vote/create_vote")
+                .file(testImage)
+                .file(testImages)
+                .file(testImages2)
+                .file(voteDTO)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(request().asyncStarted())
+            .andExpect { request().asyncResult("body") }
+            .andReturn()
+
+
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isOk)
+            .andDo {
+                println("SSSSSSSSSSSSSSSs")
+                println(it.response.toString())
+                println(it.response.contentAsString)
+                println("XXXXXXXXXXXXXXXXX")
+            }
+            .andExpect(jsonPath("$.voteUrl").isString)
+            .andDo{
+                url = it.response.contentAsString.split(":")[1].split("\"")[1]
+            }
+
+        mockMvc.perform (
+            get("/api/v1/vote/vote_detail/$url")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.vote.title").value("test"))
+            .andExpect(jsonPath("$.userVote").value("null"))
+            .andDo{
+                println(it.response.contentAsString)
+            }
+
+    }
 
     @Test
     @WithMockUser()
@@ -206,7 +273,7 @@ class VoteControllerTest @Autowired constructor(
             "application/json",
             "{ \"title\": \"test\", \"subTitle\": \"test\", \"publicShare\": true , \"maxSelectItem\": 3 , \"questionList\": [\"sdf\",\"sdfsf\"]}".toByteArray()
         )
-
+        var url:String? = null
         val mvcResult = mockMvc.perform(
             multipart("/api/v1/vote/create_vote")
                 .file(testImage)
@@ -221,6 +288,7 @@ class VoteControllerTest @Autowired constructor(
             .andReturn()
 
 
+
         mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isOk)
             .andDo {
@@ -230,6 +298,9 @@ class VoteControllerTest @Autowired constructor(
                 println("XXXXXXXXXXXXXXXXX")
             }
             .andExpect(jsonPath("$.voteUrl").isString)
+            .andDo{
+                url = it.response.contentAsString.split(":")[1].split("\"")[1]
+            }
 
         mockMvc.perform (
             get("/api/v1/user/mypage")
@@ -250,6 +321,7 @@ class VoteControllerTest @Autowired constructor(
             .andDo{
                 println(it.response.contentAsString)
             }
+
     }
 
     companion object SetUpClass{

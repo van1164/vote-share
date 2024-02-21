@@ -88,9 +88,11 @@ class VoteService(
     @Transactional
     fun voteDetail(voteUrl: String): ResponseEntity<Any> {
         return try{
+            val vote = voteRepository.loadVoteDetailByVoteUrl(voteUrl)
             val response = HashMap<String,Any>().apply {
-                put("vote",voteRepository.loadVoteDetailByVoteUrl(voteUrl))
+                put("vote",vote)
                 put("questionList",voteRepository.loadQuestionList(voteUrl))
+                put("userVote",userVoteRepository.loadUserVoteByVoteId(vote.id,vote.user.id))
             }
             ResponseEntity(response,HttpStatus.OK)
         } catch (e : Exception ){
