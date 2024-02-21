@@ -1,9 +1,13 @@
 package com.van1164.voteshare.controller
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.van1164.voteshare.JwtTokenProvider
 import com.van1164.voteshare.domain.TokenInfo
+import com.van1164.voteshare.dto.UserVoteDTO
 import com.van1164.voteshare.repository.RedisRepository
 import com.van1164.voteshare.service.RedisService
 import com.van1164.voteshare.service.UserService
@@ -35,7 +39,8 @@ class VoteControllerTest @Autowired constructor(
     var redisService: RedisService,
     var userService: UserService,
     var voteService: VoteService,
-    private final val jwtTokenProvider: JwtTokenProvider
+    private final val jwtTokenProvider: JwtTokenProvider,
+    val mapper : ObjectMapper
 ) {
     @Autowired
     lateinit var mockMvc: MockMvc
@@ -108,9 +113,77 @@ class VoteControllerTest @Autowired constructor(
             }
     }
 
+    @Test
+    @WithMockUser
+    @DisplayName("사용자가 투표하는 과정")
+    fun userVoting(){
+        val testImage = MockMultipartFile("mainImage", "0", "png", fileInputStream)
+        val testImages = MockMultipartFile("imageFiles", "null", "png", fileInputStream2)
+        val testImages2 = MockMultipartFile("imageFiles", "null", "png", fileInputStream3)
+        val testImages3 = MockMultipartFile("imageFiles", "null", "png", fileInputStream4)
+        val voteDTO = MockMultipartFile(
+            "data",
+            "",
+            "application/json",
+            "{ \"title\": \"test\", \"subTitle\": \"test\", \"publicShare\": true , \"maxSelectItem\": 3 , \"questionList\": [\"sdf\",\"sdfsf\",\"sdfsf\"]}".toByteArray()
+        )
+
+        val mvcResult = mockMvc.perform(
+            multipart("/api/v1/vote/create_vote")
+                .file(testImage)
+                .file(testImages)
+                .file(testImages2)
+                .file(testImages3)
+                .file(voteDTO)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header("Authorization", testJwt.grantType + " " + testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(request().asyncStarted())
+            .andExpect { request().asyncResult("body") }
+            .andReturn()
+        var url: String? =null
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isOk)
+            .andDo {
+                println("SSSSSSSSSSSSSSSs")
+                println(it.response.toString())
+                println(it.response.contentAsString)
+                println("XXXXXXXXXXXXXXXXX")
+            }
+            .andExpect(jsonPath("$.voteUrl").isString)
+            .andDo{
+                url = it.response.contentAsString.split(":")[1].split("\"")[1]
+            }
+
+        println(url)
+
+        assert(url != null)
+
+        mockMvc.perform (
+            get("/api/v1/vote/vote_detail/$url")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.vote.title").value("test"))
+            .andDo{
+                println(it.response.contentAsString)
+            }
+        val content = mapper.writeValueAsString(UserVoteDTO(1L,listOf(1L)))
+        mockMvc.perform (
+            post("/api/v1/vote/vote")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
+                .content(content)
+        ).andExpect(status().isOk)
+            .andDo{
+                println(it.response.contentAsString)
+            }
+    }
+
 
     @Test
     @WithMockUser()
+    @DisplayName("vote 생성 과정")
     fun createVote() {
         println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxx")
         println(userService.loadUserByEmail(testEmail))
