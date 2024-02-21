@@ -5,7 +5,6 @@ import com.van1164.voteshare.domain.Role
 import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.repository.UserRepository
-import com.van1164.voteshare.vo.UserDetailVO
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
