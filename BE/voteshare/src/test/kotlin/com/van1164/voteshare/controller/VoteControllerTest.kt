@@ -344,7 +344,6 @@ class VoteControllerTest @Autowired constructor(
             val testUser=  userService.save(
                 testName,
                 testEmail,
-                testJwt.accessToken
             )
             redisService.save(testJwt.accessToken, testUser)
         }
