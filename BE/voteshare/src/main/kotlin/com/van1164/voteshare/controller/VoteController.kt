@@ -84,5 +84,5 @@ class VoteController(
     fun viewVote(@PathVariable(value = "vote_url") voteUrl : String) : Any{
         return voteService.voteDetail(voteUrl)
     }
-
+    
 }
