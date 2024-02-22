@@ -1,5 +1,5 @@
 <div align="center">
-    <img width="600" alt="image" src="https://github.com/happyhyep/vote-share-fe/assets/103382269/61048219-36eb-447e-a8ec-6a5b244453dc">
+    <img width="600" alt="image" src="https://github.com/van1164/vote-share/assets/103382269/685028c3-9573-461f-8d72-f041aa4dd2cd">
     <h2 align="center">VOTE SHARE :: Share Your Vote</h2>
     <a href="http://vote-share.o-r.kr/">💨 사이트 바로가기 (http://vote-share.o-r.kr)</a>
 </div>
@@ -70,19 +70,19 @@
 # 📸 Page
 <div align="center">
 <h4>- 초기 화면, 구글 로그인, 마이페이지 -</h4>
-<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/daad3ba7-c04f-4a46-aa7c-61b0ed42def3" height="500"></img>
+<img src="https://github.com/van1164/vote-share/assets/103382269/c440f780-3e0a-4bad-b5b7-76df84b2513b" height="500"></img>
 <h4>- 공개 투표 생성 -</h4>
-<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/fc5b76a3-7d7e-415d-aa11-d2b5eedfc79d" height="500"></img>
+<img src="https://github.com/van1164/vote-share/assets/103382269/48664e10-6921-41bf-a2a2-4bac00e801ea" height="500"></img>
 <h4>- 비공개 투표 생성 -</h4>
-<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/e2fb05aa-8762-4258-bcb9-c0cd1b9e8dff" height="500"></img>
+<img src="https://github.com/van1164/vote-share/assets/103382269/c4bb1ee9-a111-46dc-ac15-e5c494774b66" height="500"></img>
 <h4>- 비공개 투표 접속 및 투표하기 -</h4>
-<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/6e9930c8-35c3-46b1-b2a3-e6edf8ca304a" height="500"></img>
+<img src="https://github.com/van1164/vote-share/assets/103382269/257056d6-1a4e-40d3-95d8-26f95ede4677" height="500"></img>
 </div>
 
 
 # 📚 Architecture
 <div align="center">
-<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/50989946-26d0-4a04-a13c-51a1a1f51ece" width="1000"></img>
+<img src="https://github.com/van1164/vote-share/assets/103382269/62245db8-e6d3-4f30-8dbb-9da0ffa3a0b4" width="1000"></img>
 </div>
 
 # 📧 Contact
