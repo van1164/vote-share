@@ -36,7 +36,6 @@ import java.io.FileInputStream
 @SpringBootTest
 @AutoConfigureMockMvc
 class VoteControllerTest @Autowired constructor(
-    var redisService: RedisService,
     var userService: UserService,
     var voteService: VoteService,
     private final val jwtTokenProvider: JwtTokenProvider,
