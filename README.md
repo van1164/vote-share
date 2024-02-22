@@ -68,16 +68,28 @@
 <br>
 
 # 📸 Page
-<div align="center">
-<h4>- 초기 화면, 구글 로그인, 마이페이지 -</h4>
-<img src="https://github.com/van1164/vote-share/assets/103382269/c440f780-3e0a-4bad-b5b7-76df84b2513b" height="500"></img>
-<h4>- 공개 투표 생성 -</h4>
-<img src="https://github.com/van1164/vote-share/assets/103382269/48664e10-6921-41bf-a2a2-4bac00e801ea" height="500"></img>
-<h4>- 비공개 투표 생성 -</h4>
-<img src="https://github.com/van1164/vote-share/assets/103382269/c4bb1ee9-a111-46dc-ac15-e5c494774b66" height="500"></img>
-<h4>- 비공개 투표 접속 및 투표하기 -</h4>
-<img src="https://github.com/van1164/vote-share/assets/103382269/257056d6-1a4e-40d3-95d8-26f95ede4677" height="500"></img>
-</div>
+<table align="center">
+    <tr>
+    <td align="center">
+        <h4>- 초기 화면, 구글 로그인, 마이페이지 -</h4>
+        <img src="https://github.com/van1164/vote-share/assets/103382269/c440f780-3e0a-4bad-b5b7-76df84b2513b" height="500"></img>
+    </td>
+    <td align="center">
+        <h4>- 공개 투표 생성 -</h4>
+        <img src="https://github.com/van1164/vote-share/assets/103382269/48664e10-6921-41bf-a2a2-4bac00e801ea" height="500"></img>
+    </td>
+    </tr>
+    <tr>
+        <td align="center">
+        <h4>- 비공개 투표 생성 -</h4>
+        <img src="https://github.com/van1164/vote-share/assets/103382269/c4bb1ee9-a111-46dc-ac15-e5c494774b66" height="500"></img>
+        </td>
+        <td align="center">
+        <h4>- 비공개 투표 접속 및 투표하기 -</h4>
+        <img src="https://github.com/van1164/vote-share/assets/103382269/257056d6-1a4e-40d3-95d8-26f95ede4677" height="500"></img>
+        </td>
+    </tr>
+</table>
 
 
 # 📚 Architecture
