@@ -1,8 +1,11 @@
 <div align="center">
     <img width="600" alt="image" src="https://github.com/happyhyep/vote-share-fe/assets/103382269/61048219-36eb-447e-a8ec-6a5b244453dc">
     <h2 align="center">VOTE SHARE :: Share Your Vote</h2>
-  <a href="http://vote-share.o-r.kr/">💨 사이트 바로가기 (http://vote-share.o-r.kr)</a>
+    <a href="http://vote-share.o-r.kr/">💨 사이트 바로가기 (http://vote-share.o-r.kr)</a>
 </div>
+<!-- <div align="center">
+    <a href="https://github.com/happyhyep/vote-share-fe"> Fronte-end Repository</a>
+</div> -->
 <br />
 
 # 👩‍🏫 About the project
@@ -66,34 +69,21 @@
 
 # 📸 Page
 <div align="center">
-<!-- <h5>회원가입, 이름 변경, 로그아웃</h5>
-<img src="https://github.com/happyhyep/clone-twitter/assets/103382269/27242391-bac2-40ca-b24c-48fb3a661c87" width="700"></img>
-<h5>로그인, 이름 변경</h5>
-<img src="https://github.com/happyhyep/clone-twitter/assets/103382269/fb9b03ec-c05e-4f75-a301-c1b844276b6a" width="700"></img>
-<h5>포스팅, 수정, 삭제</h5>
-<img src="https://github.com/happyhyep/clone-twitter/assets/103382269/945e5cdc-39b0-4e30-aacf-af940e18f30d" width="500"></img> -->
+<h4>- 초기 화면, 구글 로그인, 마이페이지 -</h4>
+<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/daad3ba7-c04f-4a46-aa7c-61b0ed42def3" height="500"></img>
+<h4>- 공개 투표 생성 -</h4>
+<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/fc5b76a3-7d7e-415d-aa11-d2b5eedfc79d" height="500"></img>
+<h4>- 비공개 투표 생성 -</h4>
+<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/e2fb05aa-8762-4258-bcb9-c0cd1b9e8dff" height="500"></img>
+<h4>- 비공개 투표 접속 및 투표하기 -</h4>
+<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/6e9930c8-35c3-46b1-b2a3-e6edf8ca304a" height="500"></img>
 </div>
 
 
-# 📚 Contributing
-프로젝트에 기여하고 싶으신 분들은 아래 절차를 따라주시기 바랍니다.
-```
-    1. 프로젝트 fork
-    2. feature branch 생성 (git checkout -b feature/name)
-    3. commit (git commit -m "Add feature)
-    4. push (git push origin feature/name)
-    5. pull request 생성
-    
-    Pull request는 최대한 빨리 확인하도록 하겠습니다. 
-
-```
-pull request 포함 문의사항은 [📧contact](#contact) 으로 연락 부탁드립니다.
-
-# 🤑 License
-'vote-share' 프로젝트는 MIT License에 따라 배포됩니다.
-자세한 내용은 ```LICENSE.txt```를 참고해주십시오.
-
-Copyright 2023. 정혜인 & 김시환 . All Rights Reserved.
+# 📚 Architecture
+<div align="center">
+<img src="https://github.com/happyhyep/vote-share-fe/assets/103382269/50989946-26d0-4a04-a13c-51a1a1f51ece" width="1000"></img>
+</div>
 
 # 📧 Contact
 - 정혜인 | jhi2359@naver.com
