@@ -1,4 +1,4 @@
 package com.van1164.voteshare.config.jpa
 
-class EntityManagerConfig {
+class JpaConfig {
 }

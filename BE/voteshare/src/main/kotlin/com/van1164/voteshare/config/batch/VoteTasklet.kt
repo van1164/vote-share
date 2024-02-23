@@ -1,7 +1,7 @@
 package com.van1164.voteshare.config.batch
 
 import com.van1164.voteshare.repository.PopularVoteRepository
-import com.van1164.voteshare.repository.VoteRepository
+import com.van1164.voteshare.repository.vote.VoteRepository
 import mu.KotlinLogging
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.configuration.annotation.StepScope

@@ -6,9 +6,8 @@ import com.van1164.voteshare.domain.Vote
 import com.van1164.voteshare.dto.VoteDTO
 import com.van1164.voteshare.dto.VoteDetailDTO
 import com.van1164.voteshare.repository.PopularVoteRepository
-import com.van1164.voteshare.repository.UserRepository
 import com.van1164.voteshare.repository.UserVoteRepository
-import com.van1164.voteshare.repository.VoteRepository
+import com.van1164.voteshare.repository.vote.VoteRepository
 import com.van1164.voteshare.util.ServiceUtil
 import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Value
@@ -38,7 +37,6 @@ class VoteService(
 
         voteRepository.addVote(user,vote)
         voteRepository.save(vote)
-
         questionService.createQuestionList(voteDTO.questionList, images, vote)
         return vote
     }
