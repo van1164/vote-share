@@ -1,6 +1,7 @@
 package com.van1164.voteshare.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Builder
 import lombok.NoArgsConstructor
@@ -29,6 +30,7 @@ data class User(
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     @ToString.Exclude
     @JsonBackReference
+    @JsonIgnore
     val voteList: MutableList<Vote> = mutableListOf(),
 
     @Column(name="o_auth_provider",nullable = false)
