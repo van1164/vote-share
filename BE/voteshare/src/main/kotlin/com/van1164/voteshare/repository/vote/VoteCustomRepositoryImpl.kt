@@ -55,9 +55,26 @@ class VoteCustomRepositoryImpl : VoteCustomRepository, BaseRepository() {
     }
 
     override fun loadVoteListById(popularVoteIdList: List<Long?>): Any {
-        val jpql =
-            "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.mainImageUrl,v.voteUrl) from Vote v where v.id in (:idList) order by v.allVoteSum desc "
-        return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("idList", popularVoteIdList).resultList
+        val voteDetailList= queryFactory.select(
+            Projections.constructor(
+                VoteDetailDTO::class.java,
+                vote.title,
+                vote.subTitle,
+                vote.publicShare,
+                vote.maxSelectItem,
+                vote.allVoteSum,
+                vote.updatedDate,
+                vote.mainImageUrl,
+                vote.voteUrl
+            )
+        ).from(vote)
+            .where(vote.id.`in`(popularVoteIdList))
+            .orderBy(vote.allVoteSum.desc())
+            .fetch()
+//        val jpql =
+//            "select new com.van1164.voteshare.dto.VoteDetailDTO(v.title,v.subTitle,v.publicShare,v.maxSelectItem,v.allVoteSum,v.updatedDate,v.mainImageUrl,v.voteUrl) from Vote v where v.id in (:idList) order by v.allVoteSum desc "
+//        return em.createQuery(jpql, VoteDetailDTO::class.java).setParameter("idList", popularVoteIdList).resultList
+        return voteDetailList
     }
 
     override fun loadVoteById(voteId: Long): Vote {
