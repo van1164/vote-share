@@ -15,7 +15,7 @@ interface VoteCustomRepository  {
     @Transactional
     fun loadPopularVote(): MutableList<PopularVoteResponseDTO>
 
-    fun vote(questionId: Long)
+    fun votting(questionId: Long)
     fun loadVoteDetailByVoteUrl(voteUrl: String): Vote
 
     fun loadQuestionList(voteUrl: String): List<Question>
@@ -27,4 +27,6 @@ interface VoteCustomRepository  {
     fun loadVoteListById(popularVoteIdList: List<Long?>): Any
     fun loadVoteById(voteId: Long): Vote
     fun plusVoteSum(vote: Vote)
+
+    fun newLoadPopularVote() :MutableList<PopularVoteResponseDTO>
 }

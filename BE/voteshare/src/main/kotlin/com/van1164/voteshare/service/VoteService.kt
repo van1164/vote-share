@@ -79,7 +79,7 @@ class VoteService(
         val vote = voteRepository.loadVoteById(voteId)
         voteRepository.plusVoteSum(vote)
         questionIdList.forEach {
-            voteRepository.vote(it)
+            voteRepository.votting(it)
             userVoteRepository.save(UserVote(userId,it,voteId))
         }
     }

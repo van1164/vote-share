@@ -1,5 +1,7 @@
 package com.van1164.voteshare.repository.vote
 
+import com.querydsl.core.types.Projections
+import com.van1164.voteshare.domain.QVote.vote
 import com.van1164.voteshare.domain.Question
 import com.van1164.voteshare.domain.User
 import com.van1164.voteshare.domain.Vote
@@ -12,10 +14,6 @@ import org.springframework.stereotype.Repository
 @Repository
 class VoteCustomRepositoryImpl : VoteCustomRepository, BaseRepository() {
 
-//    @Transactional
-//    override fun save(vote: Vote) {
-//        em.persist(vote)
-//    }
 
     @Transactional
     override fun loadPopularVote(): MutableList<PopularVoteResponseDTO> {
@@ -29,7 +27,7 @@ class VoteCustomRepositoryImpl : VoteCustomRepository, BaseRepository() {
         }
     }
 
-    override fun vote(questionId: Long) {
+    override fun votting(questionId: Long) {
         val question = em.find(Question::class.java, questionId)
         question.voteNum = question.voteNum + 1
     }
@@ -68,5 +66,25 @@ class VoteCustomRepositoryImpl : VoteCustomRepository, BaseRepository() {
 
     override fun plusVoteSum(vote: Vote) {
         vote.allVoteSum = vote.allVoteSum + 1
+    }
+
+    override fun newLoadPopularVote(): MutableList<PopularVoteResponseDTO> {
+        val voteList = queryFactory.select(
+            Projections.bean(
+                PopularVoteResponseDTO::class.java,
+                vote.title,
+                vote.voteUrl,
+                vote.id,
+                vote.mainImageUrl,
+                vote.allVoteSum
+            )
+        ).from(vote)
+            .where(vote.publicShare.isTrue)
+            .orderBy(
+                vote.allVoteSum.desc()
+            )
+            .limit(5)
+            .fetch()
+        return voteList
     }
 }

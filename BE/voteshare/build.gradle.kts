@@ -7,10 +7,12 @@ plugins {
 	kotlin("plugin.spring") version "1.9.21"
 	kotlin("plugin.jpa") version "1.9.21"
 	kotlin("kapt") version "1.9.22"
+	idea
 }
 
 group = "com.van1164"
 version = "0.0.1-SNAPSHOT"
+
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -18,6 +20,13 @@ java {
 
 repositories {
 	mavenCentral()
+}
+
+allOpen {
+	// Spring Boot 3.0.0
+	annotation("jakarta.persistence.Entity")
+	annotation("jakarta.persistence.MappedSuperclass")
+	annotation("jakarta.persistence.Embeddable")
 }
 
 dependencies {
@@ -59,14 +68,9 @@ dependencies {
 	// json 직렬화
 	implementation ("com.squareup.retrofit2:converter-gson:2.7.1")
 
-
-	//queryDsl
-	implementation("com.querydsl:querydsl-jpa:5.0.0")
-	implementation("com.querydsl:querydsl-apt:5.0.0")
-	implementation("javax.annotation:javax.annotation-api:1.3.2")
-	implementation("javax.persistence:javax.persistence-api:2.2")
-	annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
-	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+	//querydsl
+	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 
 
 	//Spring Batch
@@ -79,6 +83,7 @@ dependencies {
 
 }
 
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
@@ -89,4 +94,23 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	enabled = false
 	useJUnitPlatform()
+}
+
+
+// 추가
+idea {
+	module {
+		val kaptMain = file("${layout.buildDirectory}/generated/querydsl")
+		sourceDirs.add(kaptMain)
+		generatedSourceDirs.add(kaptMain)
+	}
+}
+
+kapt {
+	javacOptions {
+		option("querydsl.entityAccessors", true)
+	}
+	arguments {
+		arg("plugin", "com.querydsl.apt.jpa.JPAAnnotationProcessor")
+	}
 }

@@ -21,7 +21,7 @@ class VoteTasklet(
         log.info { "tasklet start" }
 
         //read
-        val popularVoteList = voteRepository.loadPopularVote()
+        val popularVoteList = voteRepository.newLoadPopularVote()
 
 
         //process
