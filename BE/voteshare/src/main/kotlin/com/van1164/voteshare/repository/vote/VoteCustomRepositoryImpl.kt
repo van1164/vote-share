@@ -70,7 +70,7 @@ class VoteCustomRepositoryImpl : VoteCustomRepository, BaseRepository() {
 
     override fun newLoadPopularVote(): MutableList<PopularVoteResponseDTO> {
         val voteList = queryFactory.select(
-            Projections.bean(
+            Projections.constructor(
                 PopularVoteResponseDTO::class.java,
                 vote.title,
                 vote.voteUrl,

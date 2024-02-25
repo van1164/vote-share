@@ -31,7 +31,7 @@ data class Vote(
         @Column(name = "updated_date")
         val updatedDate : Date,
 
-        
+
         @ManyToOne
         @ToString.Exclude
         @JoinTable(
