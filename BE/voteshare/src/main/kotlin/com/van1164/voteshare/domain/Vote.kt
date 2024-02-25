@@ -31,8 +31,8 @@ data class Vote(
         @Column(name = "updated_date")
         val updatedDate : Date,
 
-
-        @ManyToOne(fetch = FetchType.LAZY)
+        
+        @ManyToOne
         @ToString.Exclude
         @JoinTable(
                 name = "VOTE_USER",
@@ -52,10 +52,10 @@ data class Vote(
         @Column(name = "main_image_url")
         val mainImageUrl : String? =null,
 
+        @JsonIgnore
         @OneToMany(mappedBy = "vote", fetch = FetchType.LAZY)
         @ToString.Exclude
         @JsonBackReference
-        @JsonIgnore
         val questionList : MutableList<Question> = mutableListOf<Question>(),
 
         @Column(name= "all_vote_sum")

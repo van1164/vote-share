@@ -27,10 +27,10 @@ data class User(
     @Column(name = "e_mail")
     val email: String,
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     @ToString.Exclude
     @JsonBackReference
-    @JsonIgnore
     val voteList: MutableList<Vote> = mutableListOf(),
 
     @Column(name="o_auth_provider",nullable = false)

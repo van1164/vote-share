@@ -1,6 +1,7 @@
 package com.van1164.voteshare.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.ToString
 import org.apache.commons.lang3.builder.ToStringBuilder
@@ -23,6 +24,7 @@ data class Question(
         @Column(name = "question_image_url")
         val voteImageUrl: String? = null,
 
+        @JsonIgnore
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "VOTE_ID")
         @ToString.Exclude
