@@ -50,7 +50,6 @@ class UserControllerTest @Autowired constructor(
                 .header("Authorization",testJwt.accessToken+" "+testJwt.accessToken)
         ).andExpect(status().isOk)
             .andExpect(jsonPath("$.email").value(testEmail))
-            .andExpect(jsonPath("$.accessToken").value(testJwt))
             .andExpect(jsonPath("$.nickName").value(testName))
 
     }

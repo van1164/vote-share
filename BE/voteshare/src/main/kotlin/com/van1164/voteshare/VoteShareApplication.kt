@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.PropertySource
+import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
