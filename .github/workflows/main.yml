@@ -69,6 +69,7 @@ jobs:
         script: |
           cd app/BE/voteshare
           sudo apt-get update
+          sudo apt-get install ec2-instance-connect 
           sudo apt-get install docker.io -y
           sudo apt-get install docker-compose -y
           sudo apt-get install jq -y
