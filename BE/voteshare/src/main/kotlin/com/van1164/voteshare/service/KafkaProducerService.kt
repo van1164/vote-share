@@ -4,7 +4,8 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
-class KafkaProducerService(
+class KafkaProducerService
+    (
     val kafkaTemplate : KafkaTemplate<String,Any>
 ) {
 

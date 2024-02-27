@@ -11,4 +11,9 @@ class KafkaConsumerService {
     fun consumer(msg: String) {
         log.info { "KafkaConsumer: $msg" }
     }
+
+    @KafkaListener(topics= ["vote"], groupId = "kafkaTest")
+    fun voteConsumer(msg: String) {
+        log.info { "KafkaConsumer TestStream: $msg" }
+    }
 }

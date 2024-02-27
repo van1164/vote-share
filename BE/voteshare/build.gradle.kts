@@ -82,8 +82,8 @@ dependencies {
 	//implementation("org.slf4j:slf4j-api:1.7.30")
 
 	//kafka
-	implementation("org.springframework.kafka:spring-kafka:3.0.9")
-
+	implementation("org.springframework.kafka:spring-kafka:3.1.1")
+	implementation ("org.apache.kafka:kafka-streams:3.4.0")
 }
 
 
